@@ -557,6 +557,13 @@ static TypedField<rpg::System, int32_t> static_easyrpg_default_enemyai(
 	0,
 	0
 );
+static TypedField<rpg::System, bool> static_easyrpg_var_substitution_in_commands(
+	&rpg::System::easyrpg_var_substitution_in_commands,
+	LDB_Reader::ChunkSystem::easyrpg_var_substitution_in_commands,
+	"easyrpg_var_substitution_in_commands",
+	0,
+	0
+);
 
 
 template <>
@@ -638,6 +645,7 @@ Field<rpg::System> const* Struct<rpg::System>::fields[] = {
 	&static_easyrpg_use_rpg2k_battle_commands,
 	&static_easyrpg_default_actorai,
 	&static_easyrpg_default_enemyai,
+	&static_easyrpg_var_substitution_in_commands,
 	NULL
 };
 
