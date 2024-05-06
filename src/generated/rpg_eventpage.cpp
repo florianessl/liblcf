@@ -36,6 +36,7 @@ std::ostream& operator<<(std::ostream& os, const EventPage& obj) {
 		os << (i == 0 ? "[" : ", ") << obj.event_commands[i];
 	}
 	os << "]";
+	os << ", easyrpg_condition="<< obj.easyrpg_condition;
 	os << "}";
 	return os;
 }

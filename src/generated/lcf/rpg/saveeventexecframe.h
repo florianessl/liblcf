@@ -33,7 +33,6 @@ namespace rpg {
 		int32_t event_id = 0;
 		bool triggered_by_decision_key = false;
 		std::vector<uint8_t> subcommand_path;
-		int32_t maniac_event_info = 0;
 		int32_t maniac_event_id = 0;
 		int32_t maniac_event_page_id = 0;
 		int32_t maniac_loop_info_size = 0;
@@ -46,7 +45,6 @@ namespace rpg {
 		&& l.event_id == r.event_id
 		&& l.triggered_by_decision_key == r.triggered_by_decision_key
 		&& l.subcommand_path == r.subcommand_path
-		&& l.maniac_event_info == r.maniac_event_info
 		&& l.maniac_event_id == r.maniac_event_id
 		&& l.maniac_event_page_id == r.maniac_event_page_id
 		&& l.maniac_loop_info_size == r.maniac_loop_info_size

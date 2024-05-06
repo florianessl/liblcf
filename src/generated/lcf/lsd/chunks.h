@@ -676,8 +676,6 @@ namespace LSD_Reader {
 			subcommand_path_size = 0x15,
 			/** byte For each indention level in the script; an ID is stored there which corresponds to the branch to take in case a command allows multiple branches. For example; the Show Choice command would write the result of the choice (for example 2 for the third item) into the current indention level's entry in this array; and the script processor would later look for the Case subcommand with the corresponding ID; if any; and jump to that one (if none found; it would jump to the End Case subcommand). Once the jump is executed; the ID is set to 255 (probably a protection mechanism even though there should normally not be multiple subcommands with the same ID). */
 			subcommand_path = 0x16,
-			/** Event info bitfield */
-			maniac_event_info = 0x0E,
 			/** Event ID */
 			maniac_event_id = 0x0F,
 			/** Page ID when it is a map event */
@@ -996,6 +994,26 @@ namespace LSD_Reader {
 			version = 0x01,
 			/** Codepage used to store text in the savegame data */
 			codepage = 0x02,
+			/** Scoped switches valid for either a single map or a specific event on a map (Self switches) */
+			scoped_switches = 0x10,
+			/** Scoped variables valid for either a single map or a specific event on a map */
+			scoped_variables = 0x11,
+			/**  */
+			frame_main_switches_size = 0x12,
+			/** Temporary switches only valid for the current execution frame of the main interpreter */
+			frame_main_switches = 0x13,
+			/**  */
+			frame_parallel_switches_size = 0x14,
+			/** Temporary switches only valid for the current execution frame of the current parallel interpreter */
+			frame_parallel_switches = 0x15,
+			/**  */
+			frame_main_variables_size = 0x16,
+			/** Temporary variables only valid for the current execution frame of the main interpreter */
+			frame_main_variables = 0x17,
+			/**  */
+			frame_parallel_variables_size = 0x18,
+			/** Temporary variables only valid for the current execution frame of the current parallel interpreter */
+			frame_parallel_variables = 0x19,
 			/** User generated windows e.g. through ShowStringPicture */
 			windows = 0x64
 		};
@@ -1034,6 +1052,38 @@ namespace LSD_Reader {
 			line_spacing = 0x07,
 			/** Various text settings */
 			flags = 0x08
+		};
+	};
+	struct ChunkSaveScopedSwitchData {
+		enum Index {
+			/** The local id for the scoped switch */
+			id = 0x01,
+			/**  */
+			scope = 0x02,
+			/**  */
+			on = 0x03,
+			/**  */
+			map_id = 0x04,
+			/**  */
+			event_id = 0x05,
+			/**  */
+			auto_reset = 0x06
+		};
+	};
+	struct ChunkSaveScopedVariableData {
+		enum Index {
+			/** The local id for the scoped variable */
+			id = 0x01,
+			/**  */
+			scope = 0x02,
+			/**  */
+			value = 0x03,
+			/**  */
+			map_id = 0x04,
+			/**  */
+			event_id = 0x05,
+			/**  */
+			auto_reset = 0x05
 		};
 	};
 }

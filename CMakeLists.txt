@@ -73,6 +73,8 @@ set(LCF_SOURCES
 	src/generated/ldb_item.cpp
 	src/generated/ldb_learning.cpp
 	src/generated/ldb_music.cpp
+	src/generated/ldb_scopedswitch.cpp
+	src/generated/ldb_scopedvariable.cpp
 	src/generated/ldb_skill.cpp
 	src/generated/ldb_sound.cpp
 	src/generated/ldb_state.cpp
@@ -91,6 +93,8 @@ set(LCF_SOURCES
 	src/generated/lmt_encounter.cpp
 	src/generated/lmt_mapinfo.cpp
 	src/generated/lmt_start.cpp
+	src/generated/lmu_easyrpgeventpagecondition.cpp
+	src/generated/lmu_easyrpgeventpagecondition_flags.h
 	src/generated/lmu_event.cpp
 	src/generated/lmu_eventpage.cpp
 	src/generated/lmu_eventpagecondition.cpp
@@ -120,6 +124,8 @@ set(LCF_SOURCES
 	src/generated/lsd_savetarget.cpp
 	src/generated/lsd_savetitle.cpp
 	src/generated/lsd_savevehiclelocation.cpp
+	src/generated/lsd_savescopedswitchdata.cpp
+	src/generated/lsd_savescopedvariabledata.cpp
 	src/generated/rpg_actor.cpp
 	src/generated/rpg_animation.cpp
 	src/generated/rpg_animationcelldata.cpp
@@ -136,6 +142,7 @@ set(LCF_SOURCES
 	src/generated/rpg_class.cpp
 	src/generated/rpg_commonevent.cpp
 	src/generated/rpg_database.cpp
+	src/generated/rpg_easyrpgeventpagecondition.cpp
 	src/generated/rpg_encounter.cpp
 	src/generated/rpg_enemy.cpp
 	src/generated/rpg_enemyaction.cpp
@@ -174,6 +181,10 @@ set(LCF_SOURCES
 	src/generated/rpg_savetarget.cpp
 	src/generated/rpg_savetitle.cpp
 	src/generated/rpg_savevehiclelocation.cpp
+	src/generated/rpg_savescopedswitchdata.cpp
+	src/generated/rpg_savescopedvariabledata.cpp
+	src/generated/rpg_scopedswitch.cpp
+	src/generated/rpg_scopedvariable.cpp
 	src/generated/rpg_skill.cpp
 	src/generated/rpg_sound.cpp
 	src/generated/rpg_start.cpp
@@ -235,6 +246,7 @@ set(LCF_HEADERS
 	src/generated/lcf/rpg/class.h
 	src/generated/lcf/rpg/commonevent.h
 	src/generated/lcf/rpg/database.h
+	src/generated/lcf/rpg/easyrpgeventpagecondition.h
 	src/generated/lcf/rpg/encounter.h
 	src/generated/lcf/rpg/enemy.h
 	src/generated/lcf/rpg/enemyaction.h
@@ -273,6 +285,10 @@ set(LCF_HEADERS
 	src/generated/lcf/rpg/savetarget.h
 	src/generated/lcf/rpg/savetitle.h
 	src/generated/lcf/rpg/savevehiclelocation.h
+	src/generated/lcf/rpg/savescopedswitchdata.h
+	src/generated/lcf/rpg/savescopedvariabledata.h
+	src/generated/lcf/rpg/scopedswitch.h
+	src/generated/lcf/rpg/scopedvariable.h
 	src/generated/lcf/rpg/skill.h
 	src/generated/lcf/rpg/sound.h
 	src/generated/lcf/rpg/start.h

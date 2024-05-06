@@ -96,6 +96,36 @@ std::ostream& operator<<(std::ostream& os, const Database& obj) {
 		os << (i == 0 ? "[" : ", ") << obj.battleranimations[i];
 	}
 	os << "]";
+	os << ", easyrpg_frame_switches=";
+	for (size_t i = 0; i < obj.easyrpg_frame_switches.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_switches[i];
+	}
+	os << "]";
+	os << ", easyrpg_frame_variables=";
+	for (size_t i = 0; i < obj.easyrpg_frame_variables.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_variables[i];
+	}
+	os << "]";
+	os << ", easyrpg_map_switches=";
+	for (size_t i = 0; i < obj.easyrpg_map_switches.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_map_switches[i];
+	}
+	os << "]";
+	os << ", easyrpg_map_variables=";
+	for (size_t i = 0; i < obj.easyrpg_map_variables.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_map_variables[i];
+	}
+	os << "]";
+	os << ", easyrpg_self_switches=";
+	for (size_t i = 0; i < obj.easyrpg_self_switches.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_self_switches[i];
+	}
+	os << "]";
+	os << ", easyrpg_self_variables=";
+	for (size_t i = 0; i < obj.easyrpg_self_variables.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_self_variables[i];
+	}
+	os << "]";
 	os << "}";
 	return os;
 }

@@ -17,6 +17,7 @@
 #include <vector>
 #include "lcf/dbstring.h"
 #include "lcf/enum_tags.h"
+#include "lcf/rpg/easyrpgeventpagecondition.h"
 #include "lcf/rpg/eventcommand.h"
 #include "lcf/rpg/eventpagecondition.h"
 #include "lcf/rpg/moveroute.h"
@@ -174,6 +175,7 @@ namespace rpg {
 		int32_t move_speed = 3;
 		MoveRoute move_route;
 		std::vector<EventCommand> event_commands;
+		EasyRpgEventPageCondition easyrpg_condition;
 	};
 	inline std::ostream& operator<<(std::ostream& os, EventPage::Direction code) {
 		os << static_cast<std::underlying_type_t<decltype(code)>>(code);
@@ -223,7 +225,8 @@ namespace rpg {
 		&& l.animation_type == r.animation_type
 		&& l.move_speed == r.move_speed
 		&& l.move_route == r.move_route
-		&& l.event_commands == r.event_commands;
+		&& l.event_commands == r.event_commands
+		&& l.easyrpg_condition == r.easyrpg_condition;
 	}
 
 	inline bool operator!=(const EventPage& l, const EventPage& r) {
@@ -244,6 +247,8 @@ namespace rpg {
 			const auto ctx15 = Context<EventPage, ParentCtx>{ "event_commands", i, &obj, parent_ctx };
 			ForEachString(obj.event_commands[i], f, &ctx15);
 		}
+		const auto ctx16 = Context<EventPage, ParentCtx>{ "easyrpg_condition", -1, &obj, parent_ctx };
+		ForEachString(obj.easyrpg_condition, f, &ctx16);
 		(void)obj;
 		(void)f;
 		(void)parent_ctx;

@@ -25,6 +25,8 @@
 #include "lcf/rpg/commonevent.h"
 #include "lcf/rpg/enemy.h"
 #include "lcf/rpg/item.h"
+#include "lcf/rpg/scopedswitch.h"
+#include "lcf/rpg/scopedvariable.h"
 #include "lcf/rpg/skill.h"
 #include "lcf/rpg/state.h"
 #include "lcf/rpg/switch.h"
@@ -64,6 +66,12 @@ namespace rpg {
 		BattleCommands battlecommands;
 		std::vector<Class> classes;
 		std::vector<BattlerAnimation> battleranimations;
+		std::vector<Switch> easyrpg_frame_switches;
+		std::vector<Variable> easyrpg_frame_variables;
+		std::vector<ScopedSwitch> easyrpg_map_switches;
+		std::vector<ScopedVariable> easyrpg_map_variables;
+		std::vector<ScopedSwitch> easyrpg_self_switches;
+		std::vector<ScopedVariable> easyrpg_self_variables;
 	};
 
 	inline bool operator==(const Database& l, const Database& r) {
@@ -85,7 +93,13 @@ namespace rpg {
 		&& l.version == r.version
 		&& l.battlecommands == r.battlecommands
 		&& l.classes == r.classes
-		&& l.battleranimations == r.battleranimations;
+		&& l.battleranimations == r.battleranimations
+		&& l.easyrpg_frame_switches == r.easyrpg_frame_switches
+		&& l.easyrpg_frame_variables == r.easyrpg_frame_variables
+		&& l.easyrpg_map_switches == r.easyrpg_map_switches
+		&& l.easyrpg_map_variables == r.easyrpg_map_variables
+		&& l.easyrpg_self_switches == r.easyrpg_self_switches
+		&& l.easyrpg_self_variables == r.easyrpg_self_variables;
 	}
 
 	inline bool operator!=(const Database& l, const Database& r) {
@@ -161,6 +175,30 @@ namespace rpg {
 		for (int i = 0; i < static_cast<int>(obj.battleranimations.size()); ++i) {
 			const auto ctx19 = Context<Database, ParentCtx>{ "battleranimations", i, &obj, parent_ctx };
 			ForEachString(obj.battleranimations[i], f, &ctx19);
+		}
+		for (int i = 0; i < static_cast<int>(obj.easyrpg_frame_switches.size()); ++i) {
+			const auto ctx20 = Context<Database, ParentCtx>{ "easyrpg_frame_switches", i, &obj, parent_ctx };
+			ForEachString(obj.easyrpg_frame_switches[i], f, &ctx20);
+		}
+		for (int i = 0; i < static_cast<int>(obj.easyrpg_frame_variables.size()); ++i) {
+			const auto ctx21 = Context<Database, ParentCtx>{ "easyrpg_frame_variables", i, &obj, parent_ctx };
+			ForEachString(obj.easyrpg_frame_variables[i], f, &ctx21);
+		}
+		for (int i = 0; i < static_cast<int>(obj.easyrpg_map_switches.size()); ++i) {
+			const auto ctx22 = Context<Database, ParentCtx>{ "easyrpg_map_switches", i, &obj, parent_ctx };
+			ForEachString(obj.easyrpg_map_switches[i], f, &ctx22);
+		}
+		for (int i = 0; i < static_cast<int>(obj.easyrpg_map_variables.size()); ++i) {
+			const auto ctx23 = Context<Database, ParentCtx>{ "easyrpg_map_variables", i, &obj, parent_ctx };
+			ForEachString(obj.easyrpg_map_variables[i], f, &ctx23);
+		}
+		for (int i = 0; i < static_cast<int>(obj.easyrpg_self_switches.size()); ++i) {
+			const auto ctx24 = Context<Database, ParentCtx>{ "easyrpg_self_switches", i, &obj, parent_ctx };
+			ForEachString(obj.easyrpg_self_switches[i], f, &ctx24);
+		}
+		for (int i = 0; i < static_cast<int>(obj.easyrpg_self_variables.size()); ++i) {
+			const auto ctx25 = Context<Database, ParentCtx>{ "easyrpg_self_variables", i, &obj, parent_ctx };
+			ForEachString(obj.easyrpg_self_variables[i], f, &ctx25);
 		}
 		(void)obj;
 		(void)f;
