@@ -79,15 +79,19 @@ namespace rpg {
 			Trigger_touched = 1,
 			Trigger_collision = 2,
 			Trigger_auto_start = 3,
-			Trigger_parallel = 4
+			Trigger_parallel = 4,
+			Trigger_map_init_deferred = 8,
+			Trigger_map_init_immediate = 9
 		};
-		static constexpr auto kTriggerTags = lcf::makeEnumTags<Trigger>(
-			"action",
-			"touched",
-			"collision",
-			"auto_start",
-			"parallel"
-		);
+		static constexpr auto kTriggerTags = lcf::EnumTags{
+			Trigger_action, "action",
+			Trigger_touched, "touched",
+			Trigger_collision, "collision",
+			Trigger_auto_start, "auto_start",
+			Trigger_parallel, "parallel",
+			Trigger_map_init_deferred, "map_init_deferred",
+			Trigger_map_init_immediate, "map_init_immediate"
+		};
 		enum Layers {
 			Layers_below = 0,
 			Layers_same = 1,

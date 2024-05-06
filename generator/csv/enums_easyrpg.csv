@@ -1,4 +1,6 @@
 Structure,Entry,Value,Index
+CommonEvent,Trigger,map_init_deferred,8
+CommonEvent,Trigger,map_init_immediate,9
 EventCommand,Code,Maniac_GetSaveInfo,3001
 EventCommand,Code,Maniac_Save,3002
 EventCommand,Code,Maniac_Load,3003
@@ -30,6 +32,8 @@ EventCommand,Code,ControlSwitchesEx,2021
 EventCommand,Code,ControlVarsEx,2022
 EventCommand,Code,ControlScopedSwitches,2023
 EventCommand,Code,ControlScopedVars,2024
+EventPage,Trigger,map_init_deferred,8
+EventPage,Trigger,map_init_immediate,9
 EventPage,ManiacEventInfo,action,0
 EventPage,ManiacEventInfo,touched,1
 EventPage,ManiacEventInfo,collision,2

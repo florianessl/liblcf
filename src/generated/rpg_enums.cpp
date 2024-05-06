@@ -87,7 +87,6 @@ constexpr decltype(EventPageCondition::kComparisonTags) EventPageCondition::kCom
 constexpr decltype(EventPage::kDirectionTags) EventPage::kDirectionTags;
 constexpr decltype(EventPage::kFrameTags) EventPage::kFrameTags;
 constexpr decltype(EventPage::kMoveTypeTags) EventPage::kMoveTypeTags;
-constexpr decltype(EventPage::kTriggerTags) EventPage::kTriggerTags;
 constexpr decltype(EventPage::kLayersTags) EventPage::kLayersTags;
 constexpr decltype(EventPage::kAnimTypeTags) EventPage::kAnimTypeTags;
 constexpr decltype(Map::kScrollTypeTags) Map::kScrollTypeTags;
