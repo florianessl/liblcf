@@ -21,7 +21,7 @@
 #include <ostream>
 #include <type_traits>
 
-/**
+/** 
  * rpg::EventCommand class.
  */
 namespace lcf {
@@ -187,7 +187,9 @@ namespace rpg {
 			ControlSwitchesEx = 2021,
 			ControlVarsEx = 2022,
 			ControlScopedSwitches = 2023,
-			ControlScopedVars = 2024
+			ControlScopedVars = 2024,
+			ControlScopedTypeOptions = 2025,
+			EasyRpgStressTest = 2040
 		};
 		static constexpr auto kCodeTags = lcf::EnumTags{
 			Code::END, "END",
@@ -348,7 +350,9 @@ namespace rpg {
 			Code::ControlSwitchesEx, "ControlSwitchesEx",
 			Code::ControlVarsEx, "ControlVarsEx",
 			Code::ControlScopedSwitches, "ControlScopedSwitches",
-			Code::ControlScopedVars, "ControlScopedVars"
+			Code::ControlScopedVars, "ControlScopedVars",
+			Code::ControlScopedTypeOptions, "ControlScopedTypeOptions",
+			Code::EasyRpgStressTest, "EasyRpgStressTest"
 		};
 
 		int32_t code = 0;
