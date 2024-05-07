@@ -174,6 +174,13 @@ static TypedField<rpg::SaveEventExecState, bool> static_wait_key_enter(
 	0,
 	0
 );
+static TypedField<rpg::SaveEventExecState, int32_t> static_easyrpg_map_init_last_id(
+	&rpg::SaveEventExecState::easyrpg_map_init_last_id,
+	LSD_Reader::ChunkSaveEventExecState::easyrpg_map_init_last_id,
+	"easyrpg_map_init_last_id",
+	0,
+	0
+);
 
 
 template <>
@@ -200,6 +207,7 @@ Field<rpg::SaveEventExecState> const* Struct<rpg::SaveEventExecState>::fields[] 
 	&static_keyinput_2k3up,
 	&static_keyinput_timed,
 	&static_wait_key_enter,
+	&static_easyrpg_map_init_last_id,
 	NULL
 };
 

@@ -189,6 +189,7 @@ namespace rpg {
 			ControlScopedSwitches = 2023,
 			ControlScopedVars = 2024,
 			ControlScopedTypeOptions = 2025,
+			EasyRpgResetMapState = 2026,
 			EasyRpgStressTest = 2040
 		};
 		static constexpr auto kCodeTags = lcf::EnumTags{
@@ -352,6 +353,7 @@ namespace rpg {
 			Code::ControlScopedSwitches, "ControlScopedSwitches",
 			Code::ControlScopedVars, "ControlScopedVars",
 			Code::ControlScopedTypeOptions, "ControlScopedTypeOptions",
+			Code::EasyRpgResetMapState, "EasyRpgResetMapState",
 			Code::EasyRpgStressTest, "EasyRpgStressTest"
 		};
 

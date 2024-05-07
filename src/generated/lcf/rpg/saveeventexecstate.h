@@ -49,6 +49,7 @@ namespace rpg {
 		int32_t keyinput_2k3up = 0;
 		bool keyinput_timed = false;
 		bool wait_key_enter = false;
+		int32_t easyrpg_map_init_last_id = 0;
 	};
 
 	inline bool operator==(const SaveEventExecState& l, const SaveEventExecState& r) {
@@ -73,7 +74,8 @@ namespace rpg {
 		&& l.keyinput_2k3right == r.keyinput_2k3right
 		&& l.keyinput_2k3up == r.keyinput_2k3up
 		&& l.keyinput_timed == r.keyinput_timed
-		&& l.wait_key_enter == r.wait_key_enter;
+		&& l.wait_key_enter == r.wait_key_enter
+		&& l.easyrpg_map_init_last_id == r.easyrpg_map_init_last_id;
 	}
 
 	inline bool operator!=(const SaveEventExecState& l, const SaveEventExecState& r) {

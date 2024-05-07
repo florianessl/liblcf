@@ -683,7 +683,9 @@ namespace LSD_Reader {
 			/** Amount of loop info groups */
 			maniac_loop_info_size = 0x11,
 			/** One group of (Current loop count, end loop value) for each identation */
-			maniac_loop_info = 0x12
+			maniac_loop_info = 0x12,
+			/**  */
+			easyrpg_triggered_by_map_init = 0xC8
 		};
 	};
 	struct ChunkSaveEventExecState {
@@ -731,7 +733,9 @@ namespace LSD_Reader {
 			/**  */
 			keyinput_timed = 0x29,
 			/** Used for a wait command WaitForKeyInput rm2k3 feature to wait for decision key press. */
-			wait_key_enter = 0x2A
+			wait_key_enter = 0x2A,
+			/**  */
+			easyrpg_map_init_last_id = 0xC8
 		};
 	};
 	struct ChunkSaveMapEventBase {
@@ -903,7 +907,9 @@ namespace LSD_Reader {
 			/** If true; this event was started by the decision key. */
 			triggered_by_decision_key = 0x67,
 			/** chunks */
-			parallel_event_execstate = 0x6C
+			parallel_event_execstate = 0x6C,
+			/**  */
+			easyrpg_map_init_executed = 0xC8
 		};
 	};
 	struct ChunkSaveMapInfo {

@@ -38,6 +38,7 @@ std::ostream& operator<<(std::ostream& os, const SaveEventExecFrame& obj) {
 		os << (i == 0 ? "[" : ", ") << obj.maniac_loop_info[i];
 	}
 	os << "]";
+	os << ", easyrpg_triggered_by_map_init="<< obj.easyrpg_triggered_by_map_init;
 	os << "}";
 	return os;
 }

@@ -95,6 +95,13 @@ static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_maniac_l
 	0,
 	0
 );
+static TypedField<rpg::SaveEventExecFrame, bool> static_easyrpg_triggered_by_map_init(
+	&rpg::SaveEventExecFrame::easyrpg_triggered_by_map_init,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_triggered_by_map_init,
+	"easyrpg_triggered_by_map_init",
+	0,
+	0
+);
 
 
 template <>
@@ -110,6 +117,7 @@ Field<rpg::SaveEventExecFrame> const* Struct<rpg::SaveEventExecFrame>::fields[] 
 	&static_maniac_event_page_id,
 	&static_maniac_loop_info_size,
 	&static_maniac_loop_info,
+	&static_easyrpg_triggered_by_map_init,
 	NULL
 };
 

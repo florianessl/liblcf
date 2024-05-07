@@ -33,6 +33,7 @@ EventCommand,Code,ControlVarsEx,2022
 EventCommand,Code,ControlScopedSwitches,2023
 EventCommand,Code,ControlScopedVars,2024
 EventCommand,Code,ControlScopedTypeOptions,2025
+EventCommand,Code,EasyRpgResetMapState,2026
 EventCommand,Code,EasyRpgStressTest,2040
 EventPage,Trigger,map_init_deferred,8
 EventPage,Trigger,map_init_immediate,9

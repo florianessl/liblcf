@@ -32,13 +32,15 @@ namespace rpg {
 		int32_t original_move_route_index = 0;
 		bool triggered_by_decision_key = false;
 		SaveEventExecState parallel_event_execstate;
+		bool easyrpg_map_init_executed = false;
 	};
 
 	inline bool operator==(const SaveMapEvent& l, const SaveMapEvent& r) {
 		return l.waiting_execution == r.waiting_execution
 		&& l.original_move_route_index == r.original_move_route_index
 		&& l.triggered_by_decision_key == r.triggered_by_decision_key
-		&& l.parallel_event_execstate == r.parallel_event_execstate;
+		&& l.parallel_event_execstate == r.parallel_event_execstate
+		&& l.easyrpg_map_init_executed == r.easyrpg_map_init_executed;
 	}
 
 	inline bool operator!=(const SaveMapEvent& l, const SaveMapEvent& r) {

@@ -21,6 +21,7 @@ std::ostream& operator<<(std::ostream& os, const SaveMapEvent& obj) {
 	os << ", original_move_route_index="<< obj.original_move_route_index;
 	os << ", triggered_by_decision_key="<< obj.triggered_by_decision_key;
 	os << ", parallel_event_execstate="<< obj.parallel_event_execstate;
+	os << ", easyrpg_map_init_executed="<< obj.easyrpg_map_init_executed;
 	os << "}";
 	return os;
 }

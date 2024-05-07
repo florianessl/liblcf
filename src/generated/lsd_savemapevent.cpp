@@ -321,6 +321,13 @@ static TypedField<rpg::SaveMapEvent, rpg::SaveEventExecState> static_parallel_ev
 	1,
 	0
 );
+static TypedField<rpg::SaveMapEvent, bool> static_easyrpg_map_init_executed(
+	&rpg::SaveMapEvent::easyrpg_map_init_executed,
+	LSD_Reader::ChunkSaveMapEvent::easyrpg_map_init_executed,
+	"easyrpg_map_init_executed",
+	0,
+	0
+);
 
 
 template <>
@@ -368,6 +375,7 @@ Field<rpg::SaveMapEvent> const* Struct<rpg::SaveMapEvent>::fields[] = {
 	&static_original_move_route_index,
 	&static_triggered_by_decision_key,
 	&static_parallel_event_execstate,
+	&static_easyrpg_map_init_executed,
 	NULL
 };
 
