@@ -109,6 +109,7 @@ std::ostream& operator<<(std::ostream& os, const System& obj) {
 	os << ", easyrpg_default_actorai="<< obj.easyrpg_default_actorai;
 	os << ", easyrpg_default_enemyai="<< obj.easyrpg_default_enemyai;
 	os << ", easyrpg_var_substitution_in_commands="<< obj.easyrpg_var_substitution_in_commands;
+	os << ", easyrpg_var_substitution_formatting="<< obj.easyrpg_var_substitution_formatting;
 	os << "}";
 	return os;
 }

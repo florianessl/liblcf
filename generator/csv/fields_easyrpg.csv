@@ -182,3 +182,4 @@ System,easyrpg_use_rpg2k_battle_commands,f,Boolean,0xD9,False,0,1,If the RPG Mak
 System,easyrpg_default_actorai,f,Int32,0xDA,-1,0,0,System default actor AI
 System,easyrpg_default_enemyai,f,Int32,0xDB,-1,0,0,System default enemy AI
 System,easyrpg_var_substitution_in_commands,f,Boolean,0xDC,False,0,0,Enables substitution of '\v' '\n' '\a' inside string parameters of interpreter commands
+System,easyrpg_var_substitution_formatting,f,Boolean,0xDD,False,0,0,Enables '{fmt}'-style format specifiers for usage inside variable substitution

@@ -564,6 +564,13 @@ static TypedField<rpg::System, bool> static_easyrpg_var_substitution_in_commands
 	0,
 	0
 );
+static TypedField<rpg::System, bool> static_easyrpg_var_substitution_formatting(
+	&rpg::System::easyrpg_var_substitution_formatting,
+	LDB_Reader::ChunkSystem::easyrpg_var_substitution_formatting,
+	"easyrpg_var_substitution_formatting",
+	0,
+	0
+);
 
 
 template <>
@@ -646,6 +653,7 @@ Field<rpg::System> const* Struct<rpg::System>::fields[] = {
 	&static_easyrpg_default_actorai,
 	&static_easyrpg_default_enemyai,
 	&static_easyrpg_var_substitution_in_commands,
+	&static_easyrpg_var_substitution_formatting,
 	NULL
 };
 

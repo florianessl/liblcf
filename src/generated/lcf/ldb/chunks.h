@@ -1477,7 +1477,9 @@ namespace LDB_Reader {
 			/** System default enemy AI */
 			easyrpg_default_enemyai = 0xDB,
 			/** Enables substitution of '\v' '\n' '\a' inside string parameters of interpreter commands */
-			easyrpg_var_substitution_in_commands = 0xDC
+			easyrpg_var_substitution_in_commands = 0xDC,
+			/** Enables '{fmt}'-style format specifiers for usage inside variable substitution */
+			easyrpg_var_substitution_formatting = 0xDD
 		};
 	};
 	struct ChunkSwitch {
