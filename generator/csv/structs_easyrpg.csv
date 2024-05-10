@@ -4,6 +4,6 @@ lsd,SaveEasyRpgWindow,,1
 lsd,SaveEasyRpgText,,0
 lsd,SaveScopedSwitchData,,0
 lsd,SaveScopedVariableData,,0
-ldb,ScopedSwitch,,0
-ldb,ScopedVariable,,0
+ldb,ScopedSwitch,,1
+ldb,ScopedVariable,,1
 lmu,EasyRpgEventPageCondition,,0

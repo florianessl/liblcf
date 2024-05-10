@@ -26,6 +26,7 @@ namespace lcf {
 namespace rpg {
 	class ScopedVariable {
 	public:
+		int ID = 0;
 		DBString name;
 		int32_t default_value = 0;
 		bool default_value_defined = false;

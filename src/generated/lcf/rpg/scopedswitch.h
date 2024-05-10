@@ -25,6 +25,7 @@ namespace lcf {
 namespace rpg {
 	class ScopedSwitch {
 	public:
+		int ID = 0;
 		DBString name;
 		bool default_value = false;
 		bool default_value_defined = false;
