@@ -38,6 +38,8 @@ namespace rpg {
 		int32_t maniac_loop_info_size = 0;
 		std::vector<int32_t> maniac_loop_info;
 		bool easyrpg_triggered_by_map_init = false;
+		std::vector<int32_t> easyrpg_frame_switches;
+		std::vector<int32_t> easyrpg_frame_variables;
 	};
 
 	inline bool operator==(const SaveEventExecFrame& l, const SaveEventExecFrame& r) {
@@ -50,7 +52,9 @@ namespace rpg {
 		&& l.maniac_event_page_id == r.maniac_event_page_id
 		&& l.maniac_loop_info_size == r.maniac_loop_info_size
 		&& l.maniac_loop_info == r.maniac_loop_info
-		&& l.easyrpg_triggered_by_map_init == r.easyrpg_triggered_by_map_init;
+		&& l.easyrpg_triggered_by_map_init == r.easyrpg_triggered_by_map_init
+		&& l.easyrpg_frame_switches == r.easyrpg_frame_switches
+		&& l.easyrpg_frame_variables == r.easyrpg_frame_variables;
 	}
 
 	inline bool operator!=(const SaveEventExecFrame& l, const SaveEventExecFrame& r) {

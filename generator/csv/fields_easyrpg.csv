@@ -4,14 +4,6 @@ SaveEasyRpgData,version,,Int32,0x01,0,0,0,Savegame version
 SaveEasyRpgData,codepage,,Int32,0x02,0,0,0,Codepage used to store text in the savegame data
 SaveEasyRpgData,scoped_switches,f,Vector<SaveScopedSwitchData>,0x10,,0,0,Scoped switches valid for either a single map or a specific event on a map (Self switches)
 SaveEasyRpgData,scoped_variables,f,Vector<SaveScopedVariableData>,0x11,,0,0,Scoped variables valid for either a single map or a specific event on a map
-SaveEasyRpgData,frame_main_switches,t,Count<Vector<Boolean>>,0x12,0,0,0,
-SaveEasyRpgData,frame_main_switches,f,Vector<Boolean>,0x13,,1,0,Temporary switches only valid for the current execution frame of the main interpreter
-SaveEasyRpgData,frame_parallel_switches,t,Count<Vector<Boolean>>,0x14,0,0,0,
-SaveEasyRpgData,frame_parallel_switches,f,Vector<Boolean>,0x15,,1,0,Temporary switches only valid for the current execution frame of the current parallel interpreter
-SaveEasyRpgData,frame_main_variables,t,Count<Vector<Int32>>,0x16,0,0,0,
-SaveEasyRpgData,frame_main_variables,f,Vector<Int32>,0x17,,1,0,Temporary variables only valid for the current execution frame of the main interpreter
-SaveEasyRpgData,frame_parallel_variables,t,Count<Vector<Int32>>,0x18,0,0,0,
-SaveEasyRpgData,frame_parallel_variables,f,Vector<Int32>,0x19,,1,0,Temporary variables only valid for the current execution frame of the current parallel interpreter
 SaveEasyRpgData,windows,,Array<SaveEasyRpgWindow>,0x64,,0,0,User generated windows e.g. through ShowStringPicture
 SaveEventExecFrame,maniac_event_info,f,Ref<ManiacEventInfo>,0x0E,0,0,0,Event info bitfield
 SaveScopedSwitchData,id,f,Int32,0x01,1,1,0,The local id for the scoped switch
@@ -31,6 +23,8 @@ SaveEventExecFrame,maniac_event_page_id,f,Int32,0x10,0,0,0,Page ID when it is a 
 SaveEventExecFrame,maniac_loop_info_size,f,Int32,0x11,0,0,0,Amount of loop info groups
 SaveEventExecFrame,maniac_loop_info,f,Vector<Int32>,0x12,,0,0,"One group of (Current loop count, end loop value) for each identation"
 SaveEventExecFrame,easyrpg_triggered_by_map_init,f,Boolean,0xC8,False,0,0,
+SaveEventExecFrame,easyrpg_frame_switches,f,Vector<Int32>,0xC9,,0,0,Temporary switches only valid for the current execution frame of the interpreter
+SaveEventExecFrame,easyrpg_frame_variables,f,Vector<Int32>,0xCA,,0,0,Temporary variables only valid for the current execution frame of the interpreter
 SaveEventExecState,easyrpg_map_init_last_id,f,Int32,0xC8,0,0,0,
 SaveMapEvent,easyrpg_map_init_executed,f,Boolean,0xC8,False,0,0,
 SavePicture,easyrpg_flip,f,Enum<EasyRpgFlip>,0xC8,0,0,1,How to flip the picture

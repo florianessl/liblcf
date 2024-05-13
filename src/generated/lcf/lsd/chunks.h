@@ -685,7 +685,11 @@ namespace LSD_Reader {
 			/** One group of (Current loop count, end loop value) for each identation */
 			maniac_loop_info = 0x12,
 			/**  */
-			easyrpg_triggered_by_map_init = 0xC8
+			easyrpg_triggered_by_map_init = 0xC8,
+			/** Temporary switches only valid for the current execution frame of the interpreter */
+			easyrpg_frame_switches = 0xC9,
+			/** Temporary variables only valid for the current execution frame of the interpreter */
+			easyrpg_frame_variables = 0xCA
 		};
 	};
 	struct ChunkSaveEventExecState {
@@ -1004,22 +1008,6 @@ namespace LSD_Reader {
 			scoped_switches = 0x10,
 			/** Scoped variables valid for either a single map or a specific event on a map */
 			scoped_variables = 0x11,
-			/**  */
-			frame_main_switches_size = 0x12,
-			/** Temporary switches only valid for the current execution frame of the main interpreter */
-			frame_main_switches = 0x13,
-			/**  */
-			frame_parallel_switches_size = 0x14,
-			/** Temporary switches only valid for the current execution frame of the current parallel interpreter */
-			frame_parallel_switches = 0x15,
-			/**  */
-			frame_main_variables_size = 0x16,
-			/** Temporary variables only valid for the current execution frame of the main interpreter */
-			frame_main_variables = 0x17,
-			/**  */
-			frame_parallel_variables_size = 0x18,
-			/** Temporary variables only valid for the current execution frame of the current parallel interpreter */
-			frame_parallel_variables = 0x19,
 			/** User generated windows e.g. through ShowStringPicture */
 			windows = 0x64
 		};

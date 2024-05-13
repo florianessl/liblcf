@@ -39,6 +39,16 @@ std::ostream& operator<<(std::ostream& os, const SaveEventExecFrame& obj) {
 	}
 	os << "]";
 	os << ", easyrpg_triggered_by_map_init="<< obj.easyrpg_triggered_by_map_init;
+	os << ", easyrpg_frame_switches=";
+	for (size_t i = 0; i < obj.easyrpg_frame_switches.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_switches[i];
+	}
+	os << "]";
+	os << ", easyrpg_frame_variables=";
+	for (size_t i = 0; i < obj.easyrpg_frame_variables.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_variables[i];
+	}
+	os << "]";
 	os << "}";
 	return os;
 }

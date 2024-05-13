@@ -21,7 +21,7 @@
 #include <ostream>
 #include <type_traits>
 
-/** 
+/**
  * rpg::EventCommand class.
  */
 namespace lcf {

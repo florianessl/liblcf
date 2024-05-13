@@ -102,6 +102,20 @@ static TypedField<rpg::SaveEventExecFrame, bool> static_easyrpg_triggered_by_map
 	0,
 	0
 );
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_switches(
+	&rpg::SaveEventExecFrame::easyrpg_frame_switches,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches,
+	"easyrpg_frame_switches",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_variables(
+	&rpg::SaveEventExecFrame::easyrpg_frame_variables,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables,
+	"easyrpg_frame_variables",
+	0,
+	0
+);
 
 
 template <>
@@ -118,6 +132,8 @@ Field<rpg::SaveEventExecFrame> const* Struct<rpg::SaveEventExecFrame>::fields[] 
 	&static_maniac_loop_info_size,
 	&static_maniac_loop_info,
 	&static_easyrpg_triggered_by_map_init,
+	&static_easyrpg_frame_switches,
+	&static_easyrpg_frame_variables,
 	NULL
 };
 

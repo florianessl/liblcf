@@ -33,10 +33,6 @@ namespace rpg {
 		int32_t codepage = 0;
 		std::vector<SaveScopedSwitchData> scoped_switches;
 		std::vector<SaveScopedVariableData> scoped_variables;
-		std::vector<bool> frame_main_switches;
-		std::vector<bool> frame_parallel_switches;
-		std::vector<int32_t> frame_main_variables;
-		std::vector<int32_t> frame_parallel_variables;
 		std::vector<SaveEasyRpgWindow> windows;
 	};
 
@@ -45,10 +41,6 @@ namespace rpg {
 		&& l.codepage == r.codepage
 		&& l.scoped_switches == r.scoped_switches
 		&& l.scoped_variables == r.scoped_variables
-		&& l.frame_main_switches == r.frame_main_switches
-		&& l.frame_parallel_switches == r.frame_parallel_switches
-		&& l.frame_main_variables == r.frame_main_variables
-		&& l.frame_parallel_variables == r.frame_parallel_variables
 		&& l.windows == r.windows;
 	}
 
@@ -69,8 +61,8 @@ namespace rpg {
 			ForEachString(obj.scoped_variables[i], f, &ctx4);
 		}
 		for (int i = 0; i < static_cast<int>(obj.windows.size()); ++i) {
-			const auto ctx9 = Context<SaveEasyRpgData, ParentCtx>{ "windows", i, &obj, parent_ctx };
-			ForEachString(obj.windows[i], f, &ctx9);
+			const auto ctx5 = Context<SaveEasyRpgData, ParentCtx>{ "windows", i, &obj, parent_ctx };
+			ForEachString(obj.windows[i], f, &ctx5);
 		}
 		(void)obj;
 		(void)f;

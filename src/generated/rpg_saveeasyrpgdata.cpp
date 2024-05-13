@@ -29,26 +29,6 @@ std::ostream& operator<<(std::ostream& os, const SaveEasyRpgData& obj) {
 		os << (i == 0 ? "[" : ", ") << obj.scoped_variables[i];
 	}
 	os << "]";
-	os << ", frame_main_switches=";
-	for (size_t i = 0; i < obj.frame_main_switches.size(); ++i) {
-		os << (i == 0 ? "[" : ", ") << obj.frame_main_switches[i];
-	}
-	os << "]";
-	os << ", frame_parallel_switches=";
-	for (size_t i = 0; i < obj.frame_parallel_switches.size(); ++i) {
-		os << (i == 0 ? "[" : ", ") << obj.frame_parallel_switches[i];
-	}
-	os << "]";
-	os << ", frame_main_variables=";
-	for (size_t i = 0; i < obj.frame_main_variables.size(); ++i) {
-		os << (i == 0 ? "[" : ", ") << obj.frame_main_variables[i];
-	}
-	os << "]";
-	os << ", frame_parallel_variables=";
-	for (size_t i = 0; i < obj.frame_parallel_variables.size(); ++i) {
-		os << (i == 0 ? "[" : ", ") << obj.frame_parallel_variables[i];
-	}
-	os << "]";
 	os << ", windows=";
 	for (size_t i = 0; i < obj.windows.size(); ++i) {
 		os << (i == 0 ? "[" : ", ") << obj.windows[i];
