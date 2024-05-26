@@ -686,10 +686,20 @@ namespace LSD_Reader {
 			maniac_loop_info = 0x12,
 			/**  */
 			easyrpg_triggered_by_map_init = 0xC8,
+			/**  */
+			easyrpg_framevars_in_use = 0xD0,
 			/** Temporary switches only valid for the current execution frame of the interpreter */
-			easyrpg_frame_switches = 0xC9,
+			easyrpg_frame_switches = 0xD1,
+			/** Array of bitmasks indicating whether to carry over frame-scoped switches on frame pushes */
+			easyrpg_frame_switches_carry_flags_in = 0xD2,
+			/** Array of bitmasks indicating whether to carry over frame-scoped switches on frame pops */
+			easyrpg_frame_switches_carry_flags_out = 0xD3,
 			/** Temporary variables only valid for the current execution frame of the interpreter */
-			easyrpg_frame_variables = 0xCA
+			easyrpg_frame_variables = 0xD4,
+			/** Array of bitmasks indicating whether to carry over frame-scoped vars on frame pushes */
+			easyrpg_frame_variables_carry_flags_in = 0xD5,
+			/** Array of bitmasks indicating whether to carry over frame-scoped vars on frame pops */
+			easyrpg_frame_variables_carry_flags_out = 0xD6
 		};
 	};
 	struct ChunkSaveEventExecState {

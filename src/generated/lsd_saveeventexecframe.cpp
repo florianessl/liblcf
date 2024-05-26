@@ -102,10 +102,31 @@ static TypedField<rpg::SaveEventExecFrame, bool> static_easyrpg_triggered_by_map
 	0,
 	0
 );
-static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_switches(
+static TypedField<rpg::SaveEventExecFrame, bool> static_easyrpg_framevars_in_use(
+	&rpg::SaveEventExecFrame::easyrpg_framevars_in_use,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_framevars_in_use,
+	"easyrpg_framevars_in_use",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<bool>> static_easyrpg_frame_switches(
 	&rpg::SaveEventExecFrame::easyrpg_frame_switches,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches,
 	"easyrpg_frame_switches",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_switches_carry_flags_in(
+	&rpg::SaveEventExecFrame::easyrpg_frame_switches_carry_flags_in,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches_carry_flags_in,
+	"easyrpg_frame_switches_carry_flags_in",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_switches_carry_flags_out(
+	&rpg::SaveEventExecFrame::easyrpg_frame_switches_carry_flags_out,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches_carry_flags_out,
+	"easyrpg_frame_switches_carry_flags_out",
 	0,
 	0
 );
@@ -113,6 +134,20 @@ static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_
 	&rpg::SaveEventExecFrame::easyrpg_frame_variables,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables,
 	"easyrpg_frame_variables",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_variables_carry_flags_in(
+	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
+	"easyrpg_frame_variables_carry_flags_in",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_variables_carry_flags_out(
+	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_out,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_out,
+	"easyrpg_frame_variables_carry_flags_out",
 	0,
 	0
 );
@@ -132,8 +167,13 @@ Field<rpg::SaveEventExecFrame> const* Struct<rpg::SaveEventExecFrame>::fields[] 
 	&static_maniac_loop_info_size,
 	&static_maniac_loop_info,
 	&static_easyrpg_triggered_by_map_init,
+	&static_easyrpg_framevars_in_use,
 	&static_easyrpg_frame_switches,
+	&static_easyrpg_frame_switches_carry_flags_in,
+	&static_easyrpg_frame_switches_carry_flags_out,
 	&static_easyrpg_frame_variables,
+	&static_easyrpg_frame_variables_carry_flags_in,
+	&static_easyrpg_frame_variables_carry_flags_out,
 	NULL
 };
 
