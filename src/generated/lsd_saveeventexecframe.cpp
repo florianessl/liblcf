@@ -116,14 +116,14 @@ static TypedField<rpg::SaveEventExecFrame, std::vector<bool>> static_easyrpg_fra
 	0,
 	0
 );
-static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_switches_carry_flags_in(
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_switches_carry_flags_in(
 	&rpg::SaveEventExecFrame::easyrpg_frame_switches_carry_flags_in,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches_carry_flags_in,
 	"easyrpg_frame_switches_carry_flags_in",
 	0,
 	0
 );
-static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_switches_carry_flags_out(
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_switches_carry_flags_out(
 	&rpg::SaveEventExecFrame::easyrpg_frame_switches_carry_flags_out,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches_carry_flags_out,
 	"easyrpg_frame_switches_carry_flags_out",
@@ -137,14 +137,14 @@ static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_
 	0,
 	0
 );
-static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_variables_carry_flags_in(
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_variables_carry_flags_in(
 	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
 	"easyrpg_frame_variables_carry_flags_in",
 	0,
 	0
 );
-static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_variables_carry_flags_out(
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_variables_carry_flags_out(
 	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_out,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_out,
 	"easyrpg_frame_variables_carry_flags_out",

@@ -25,11 +25,11 @@ SaveEventExecFrame,maniac_loop_info,f,Vector<Int32>,0x12,,0,0,"One group of (Cur
 SaveEventExecFrame,easyrpg_triggered_by_map_init,f,Boolean,0xC8,False,0,0,
 SaveEventExecFrame,easyrpg_framevars_in_use,f,Boolean,0xD0,False,0,0,
 SaveEventExecFrame,easyrpg_frame_switches,f,Vector<Boolean>,0xD1,,0,0,Temporary switches only valid for the current execution frame of the interpreter
-SaveEventExecFrame,easyrpg_frame_switches_carry_flags_in,f,Vector<Int32>,0xD2,,0,0,Array of bitmasks indicating whether to carry over frame-scoped switches on frame pushes
-SaveEventExecFrame,easyrpg_frame_switches_carry_flags_out,f,Vector<Int32>,0xD3,,0,0,Array of bitmasks indicating whether to carry over frame-scoped switches on frame pops
+SaveEventExecFrame,easyrpg_frame_switches_carry_flags_in,f,Vector<UInt32>,0xD2,,0,0,Array of bitmasks indicating whether to carry over frame-scoped switches on frame pushes
+SaveEventExecFrame,easyrpg_frame_switches_carry_flags_out,f,Vector<UInt32>,0xD3,,0,0,Array of bitmasks indicating whether to carry over frame-scoped switches on frame pops
 SaveEventExecFrame,easyrpg_frame_variables,f,Vector<Int32>,0xD4,,0,0,Temporary variables only valid for the current execution frame of the interpreter
-SaveEventExecFrame,easyrpg_frame_variables_carry_flags_in,f,Vector<Int32>,0xD5,,0,0,Array of bitmasks indicating whether to carry over frame-scoped vars on frame pushes
-SaveEventExecFrame,easyrpg_frame_variables_carry_flags_out,f,Vector<Int32>,0xD6,,0,0,Array of bitmasks indicating whether to carry over frame-scoped vars on frame pops
+SaveEventExecFrame,easyrpg_frame_variables_carry_flags_in,f,Vector<UInt32>,0xD5,,0,0,Array of bitmasks indicating whether to carry over frame-scoped vars on frame pushes
+SaveEventExecFrame,easyrpg_frame_variables_carry_flags_out,f,Vector<UInt32>,0xD6,,0,0,Array of bitmasks indicating whether to carry over frame-scoped vars on frame pops
 SaveEventExecState,easyrpg_map_init_last_id,f,Int32,0xC8,0,0,0,
 SaveMapEvent,easyrpg_map_init_executed,f,Boolean,0xC8,False,0,0,
 SavePicture,easyrpg_flip,f,Enum<EasyRpgFlip>,0xC8,0,0,1,How to flip the picture

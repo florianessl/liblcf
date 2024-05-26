@@ -40,11 +40,11 @@ namespace rpg {
 		bool easyrpg_triggered_by_map_init = false;
 		bool easyrpg_framevars_in_use = false;
 		std::vector<bool> easyrpg_frame_switches;
-		std::vector<int32_t> easyrpg_frame_switches_carry_flags_in;
-		std::vector<int32_t> easyrpg_frame_switches_carry_flags_out;
+		std::vector<uint32_t> easyrpg_frame_switches_carry_flags_in;
+		std::vector<uint32_t> easyrpg_frame_switches_carry_flags_out;
 		std::vector<int32_t> easyrpg_frame_variables;
-		std::vector<int32_t> easyrpg_frame_variables_carry_flags_in;
-		std::vector<int32_t> easyrpg_frame_variables_carry_flags_out;
+		std::vector<uint32_t> easyrpg_frame_variables_carry_flags_in;
+		std::vector<uint32_t> easyrpg_frame_variables_carry_flags_out;
 	};
 
 	inline bool operator==(const SaveEventExecFrame& l, const SaveEventExecFrame& r) {
