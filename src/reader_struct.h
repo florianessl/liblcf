@@ -38,6 +38,7 @@
 #include "lcf/rpg/terms.h"
 #include "lcf/rpg/saveeasyrpgtext.h"
 #include "lcf/rpg/saveeasyrpgwindow.h"
+#include "lcf/rpg/easyrpgeventpagecondition.h"
 #include "log.h"
 
 namespace lcf {
@@ -71,6 +72,7 @@ template <> struct TypeCategory<rpg::Terrain::Flags>			{ static const Category::
 template <> struct TypeCategory<rpg::SavePicture::Flags>		{ static const Category::Index value = Category::Flags; };
 template <> struct TypeCategory<rpg::SaveEasyRpgText::Flags>	{ static const Category::Index value = Category::Flags; };
 template <> struct TypeCategory<rpg::SaveEasyRpgWindow::Flags>	{ static const Category::Index value = Category::Flags; };
+template <> struct TypeCategory<rpg::EasyRpgEventPageCondition::Flags> { static const Category::Index value = Category::Flags; };
 
 template <> struct TypeCategory<rpg::Equipment>					{ static const Category::Index value = Category::RawStruct; };
 template <> struct TypeCategory<rpg::EventCommand>				{ static const Category::Index value = Category::RawStruct; };

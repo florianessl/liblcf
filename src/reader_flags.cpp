@@ -12,6 +12,7 @@
 #include "lcf/rpg/eventpagecondition.h"
 #include "lcf/rpg/terrain.h"
 #include "lcf/rpg/savepicture.h"
+#include "lcf/rpg/easyrpgeventpagecondition.h"
 
 #include "ldb_trooppagecondition_flags.h"
 #include "ldb_terrain_flags.h"
@@ -19,6 +20,7 @@
 #include "lsd_savepicture_flags.h"
 #include "lsd_saveeasyrpgtext_flags.h"
 #include "lsd_saveeasyrpgwindow_flags.h"
+#include "lmu_easyrpgeventpagecondition_flags.h"
 
 namespace lcf {
 // Templates
@@ -150,5 +152,6 @@ template class Flags<rpg::Terrain::Flags>;
 template class Flags<rpg::SavePicture::Flags>;
 template class Flags<rpg::SaveEasyRpgText::Flags>;
 template class Flags<rpg::SaveEasyRpgWindow::Flags>;
+template class Flags<rpg::EasyRpgEventPageCondition::Flags>;
 
 } //namespace lcf
