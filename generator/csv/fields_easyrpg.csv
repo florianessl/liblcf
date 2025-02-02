@@ -2,6 +2,13 @@ Structure,Field,Size Field?,Type,Index,Default Value,PersistIfDefault,Is2k3,Comm
 Save,easyrpg_data,f,SaveEasyRpgData,0xC8,,0,0,Additional save data written by EasyRPG Player
 SaveEasyRpgData,version,,Int32,0x01,0,0,0,Savegame version
 SaveEasyRpgData,codepage,,Int32,0x02,0,0,0,Codepage used to store text in the savegame data
+SaveEasyRpgData,followers_enabled,,Boolean,0x0D,False,0,0,
+SaveEasyRpgData,followers_frozen,,Boolean,0x0E,False,0,0,
+SaveEasyRpgData,followers_auto_sync,,Boolean,0x0F,True,0,0,
+SaveEasyRpgData,followers_awaitable,,Boolean,0x10,False,0,0,
+SaveEasyRpgData,follower1,,SaveFollowerLocation,0x11,,1,0,
+SaveEasyRpgData,follower2,,SaveFollowerLocation,0x12,,1,0,
+SaveEasyRpgData,follower3,,SaveFollowerLocation,0x13,,1,0,
 SaveEasyRpgData,windows,,Array<SaveEasyRpgWindow>,0x64,,0,0,User generated windows e.g. through ShowStringPicture
 SaveEventExecFrame,maniac_event_info,f,Ref<ManiacEventInfo>,0x0E,0,0,0,Event info bitfield
 SaveEventExecFrame,maniac_event_id,f,Int32,0x0F,0,0,0,Event ID
@@ -30,6 +37,13 @@ SaveEasyRpgText,font_size,f,Int32,0x05,12,0,0,Font size
 SaveEasyRpgText,letter_spacing,f,Int32,0x06,0,0,0,Additional spacing between letters
 SaveEasyRpgText,line_spacing,f,Int32,0x07,4,0,0,Additional spacing between lines
 SaveEasyRpgText,flags,f,SaveEasyRpgText_Flags,0x08,3,0,0,Various text settings
+SaveFollowerLocation,follower_id,f,Int32,0x65,0,0,0,Which follower
+SaveFollowerLocation,actor_id,f,Int32,0x66,0,0,0,Which actor
+SaveFollowerLocation,is_init,f,Boolean,0x68,0,0,0,
+SaveFollowerLocation,is_frozen,f,Boolean,0x69,0,0,0,
+SaveFollowerLocation,auto_sync,f,Boolean,0x6A,0,0,0,
+SaveFollowerLocation,force_reset,f,Boolean,0x6B,0,0,0,
+SaveFollowerLocation,awaitable,f,Boolean,0x6C,0,0,0,
 SaveMapEventBase,easyrpg_move_failure_count,f,Int32,0xC9,0,0,0,Tracks how often the current move operation in a move route failed
 SavePartyLocation,maniac_horizontal_pan_speed,f,Double,0x8D,0,0,0,horizontal speed in the scrolls of the screen
 SavePartyLocation,maniac_vertical_pan_speed,f,Double,0x8E,0,0,0,vertical speed in the scrolls of the screen
@@ -57,6 +71,7 @@ Actor,easyrpg_unarmed_attribute_set,t,DBBitArray,0xD2,,0,0,Attributes used by un
 Actor,easyrpg_unarmed_attribute_set,f,DBBitArray,0xD3,,0,0,Attributes used by unarmed normal attacks of the actor
 Actor,easyrpg_dual_attack,f,Boolean,0xD4,False,0,0,If the actors unarmed physical attacks hits twice
 Actor,easyrpg_attack_all,f,Boolean,0xD5,False,0,0,If the actors unarmed physical targets the entire enemy party
+Actor,easyrpg_no_follow,f,Boolean,0xD6,False,0,0,
 Enemy,maniac_unarmed_animation,f,Ref<Animation>,0x0F,1,0,0,Animation for normal enemy attacks (Maniac Patch only)
 Enemy,easyrpg_enemyai,f,Int32,0xC9,-1,0,0,Default AI behavior of the enemy
 Enemy,easyrpg_prevent_critical,f,Boolean,0xCA,False,0,0,If the enemy is protected against critical hits
