@@ -2,6 +2,16 @@ Structure,Field,Size Field?,Type,Index,Default Value,PersistIfDefault,Is2k3,Comm
 Save,easyrpg_data,f,SaveEasyRpgData,0xC8,,0,0,Additional save data written by EasyRPG Player
 SaveEasyRpgData,version,,Int32,0x01,0,0,0,Savegame version
 SaveEasyRpgData,codepage,,Int32,0x02,0,0,0,Codepage used to store text in the savegame data
+SaveEasyRpgData,scoped_switches,f,Vector<SaveScopedSwitchData>,0x10,,0,0,Scoped switches valid for either a single map or a specific event on a map (Self switches)
+SaveEasyRpgData,scoped_variables,f,Vector<SaveScopedVariableData>,0x11,,0,0,Scoped variables valid for either a single map or a specific event on a map
+SaveEasyRpgData,frame_main_switches,t,Count<Vector<Boolean>>,0x12,0,0,0,
+SaveEasyRpgData,frame_main_switches,f,Vector<Boolean>,0x13,,1,0,Temporary switches only valid for the current execution frame of the main interpreter
+SaveEasyRpgData,frame_parallel_switches,t,Count<Vector<Boolean>>,0x14,0,0,0,
+SaveEasyRpgData,frame_parallel_switches,f,Vector<Boolean>,0x15,,1,0,Temporary switches only valid for the current execution frame of the current parallel interpreter
+SaveEasyRpgData,frame_main_variables,t,Count<Vector<Int32>>,0x16,0,0,0,
+SaveEasyRpgData,frame_main_variables,f,Vector<Int32>,0x17,,1,0,Temporary variables only valid for the current execution frame of the main interpreter
+SaveEasyRpgData,frame_parallel_variables,t,Count<Vector<Int32>>,0x18,0,0,0,
+SaveEasyRpgData,frame_parallel_variables,f,Vector<Int32>,0x19,,1,0,Temporary variables only valid for the current execution frame of the current parallel interpreter
 SaveEasyRpgData,windows,,Array<SaveEasyRpgWindow>,0x64,,0,0,User generated windows e.g. through ShowStringPicture
 SaveEventExecFrame,maniac_event_info,f,Ref<ManiacEventInfo>,0x0E,0,0,0,Event info bitfield
 SaveEventExecFrame,maniac_event_id,f,Int32,0x0F,0,0,0,Event ID
@@ -9,6 +19,22 @@ SaveEventExecFrame,maniac_event_page_id,f,Int32,0x10,0,0,0,Page ID when it is a 
 SaveEventExecFrame,maniac_loop_info_size,f,Int32,0x11,0,0,0,Amount of loop info groups
 SaveEventExecFrame,maniac_loop_info,f,Vector<Int32>,0x12,,0,0,"One group of (Current loop count, end loop value) for each identation"
 SaveEventExecFrame,easyrpg_runtime_flags,f,UInt32,0xC8,0,0,0,
+SaveEventExecFrame,easyrpg_frame_switches,f,Vector<Boolean>,0xD1,,0,0,Temporary switches only valid for the current execution frame of the interpreter
+SaveEventExecFrame,easyrpg_frame_switches_carry_flags_in,f,Vector<UInt32>,0xD2,,0,0,Array of bitmasks indicating whether to carry over frame-scoped switches on frame pushes
+SaveEventExecFrame,easyrpg_frame_switches_carry_flags_out,f,Vector<UInt32>,0xD3,,0,0,Array of bitmasks indicating whether to carry over frame-scoped switches on frame pops
+SaveEventExecFrame,easyrpg_frame_variables_carry_flags_in,f,Vector<UInt32>,0xD5,,0,0,Array of bitmasks indicating whether to carry over frame-scoped vars on frame pushes
+SaveEventExecFrame,easyrpg_frame_variables_carry_flags_out,f,Vector<UInt32>,0xD6,,0,0,Array of bitmasks indicating whether to carry over frame-scoped vars on frame pops
+SaveScopedSwitchData,scope,f,Int32,0x02,0,1,0,
+SaveScopedSwitchData,on,f,Boolean,0x03,False,1,0,
+SaveScopedSwitchData,map_id,f,Int32,0x04,0,1,0,
+SaveScopedSwitchData,event_id,f,Int32,0x05,0,1,0,
+SaveScopedSwitchData,auto_reset,f,Boolean,0x06,False,1,0,
+SaveScopedVariableData,id,f,Int32,0x01,1,1,0,The local id for the scoped variable
+SaveScopedVariableData,scope,f,Int32,0x02,0,1,0,
+SaveScopedVariableData,value,f,Int32,0x03,0,1,0,
+SaveScopedVariableData,map_id,f,Int32,0x04,0,1,0,
+SaveScopedVariableData,event_id,f,Int32,0x05,0,1,0,
+SaveScopedVariableData,auto_reset,f,Boolean,0x05,False,1,0,
 SaveEventExecState,easyrpg_runtime_flags,f,UInt32,0xC8,0,0,0,
 SaveEventExecState,easyrpg_active,f,Boolean,0xC9,False,0,0,When true state of an event is preserved in easyrpg_string and easyrpg_parameters
 SaveEventExecState,easyrpg_string,f,DBString,0xCA,,0,0,Preserved string data of an event
@@ -60,6 +86,26 @@ Actor,easyrpg_unarmed_attribute_set,t,DBBitArray,0xD2,,0,0,Attributes used by un
 Actor,easyrpg_unarmed_attribute_set,f,DBBitArray,0xD3,,0,0,Attributes used by unarmed normal attacks of the actor
 Actor,easyrpg_dual_attack,f,Boolean,0xD4,False,0,0,If the actors unarmed physical attacks hits twice
 Actor,easyrpg_attack_all,f,Boolean,0xD5,False,0,0,If the actors unarmed physical targets the entire enemy party
+ScopedSwitch,name,f,DBString,0x01,,0,0,String
+ScopedSwitch,default_value,f,Boolean,0x02,False,1,0,
+ScopedSwitch,default_value_defined,f,Boolean,0x03,False,1,0,
+ScopedSwitch,is_readonly,f,Boolean,0x04,False,1,0,
+ScopedSwitch,show_in_editor,f,Boolean,0x05,False,1,0,
+ScopedSwitch,auto_reset,f,Boolean,0x06,False,1,0,
+ScopedSwitch,map_group_inherited_value,f,Boolean,0x07,False,1,0,
+ScopedVariable,name,f,DBString,0x01,,0,0,String
+ScopedVariable,default_value,f,Int32,0x02,0,1,0,
+ScopedVariable,default_value_defined,f,Boolean,0x03,False,1,0,
+ScopedVariable,is_readonly,f,Boolean,0x04,False,1,0,
+ScopedVariable,show_in_editor,f,Boolean,0x05,False,1,0,
+ScopedVariable,auto_reset,f,Boolean,0x06,False,1,0,
+ScopedVariable,map_group_inherited_value,f,Boolean,0x07,False,1,0,
+Database,easyrpg_frame_switches,f,Array<Switch>,0xC8,,1,0,
+Database,easyrpg_frame_variables,f,Array<Variable>,0xC9,,1,0,
+Database,easyrpg_map_switches,f,Array<ScopedSwitch>,0xCA,,1,0,
+Database,easyrpg_map_variables,f,Array<ScopedVariable>,0xCB,,1,0,
+Database,easyrpg_self_switches,f,Array<ScopedSwitch>,0xCC,,1,0,
+Database,easyrpg_self_variables,f,Array<ScopedVariable>,0xCD,,1,0,
 Enemy,maniac_unarmed_animation,f,Ref<Animation>,0x0F,1,0,0,Animation for normal enemy attacks (Maniac Patch only)
 Enemy,easyrpg_enemyai,f,Int32,0xC9,-1,0,0,Default AI behavior of the enemy
 Enemy,easyrpg_prevent_critical,f,Boolean,0xCA,False,0,0,If the enemy is protected against critical hits
@@ -74,6 +120,18 @@ Enemy,easyrpg_attribute_set,t,DBBitArray,0xD2,,0,0,Attributes used by normal att
 Enemy,easyrpg_attribute_set,f,DBBitArray,0xD3,,0,0,Attributes used by normal attacks of the enemy
 Enemy,easyrpg_super_guard,f,Boolean,0xD4,False,0,0,If the enemies defend action quarters instead of halves HP damage
 Enemy,easyrpg_attack_all,f,Boolean,0xD5,False,0,0,If the enemies unarmed physical targets the entire player party
+EventPage,easyrpg_condition,f,EasyRpgEventPageCondition,0xC8,,1,0,
+EasyRpgEventPageCondition,flags,f,EasyRpgEventPageCondition_Flags,0x01,,1,0,
+EasyRpgEventPageCondition,self_switch_a_id,f,Ref<Switch>,0x02,1,0,0,Integer
+EasyRpgEventPageCondition,self_switch_b_id,f,Ref<Switch>,0x03,1,0,0,Integer
+EasyRpgEventPageCondition,self_var_id,f,Ref<Variable>,0x04,1,0,0,Integer
+EasyRpgEventPageCondition,self_var_value,f,Int32,0x05,0,0,0,Integer
+EasyRpgEventPageCondition,self_var_operator,f,Enum<EventPageCondition_Comparison>,0x06,1,0,0,Integer
+EasyRpgEventPageCondition,map_switch_a_id,f,Ref<Switch>,0x07,1,0,0,Integer
+EasyRpgEventPageCondition,map_switch_b_id,f,Ref<Switch>,0x08,1,0,0,Integer
+EasyRpgEventPageCondition,map_var_id,f,Ref<Variable>,0x09,1,0,0,Integer
+EasyRpgEventPageCondition,map_var_value,f,Int32,0x0A,0,0,0,Integer
+EasyRpgEventPageCondition,map_var_operator,f,Enum<EventPageCondition_Comparison>,0x0B,1,0,0,Integer
 Skill,easyrpg_battle2k3_message,f,DBString,0xC9,DBString(kDefaultMessage),0,1,RPG Maker 2003 battle skill start notification
 Skill,easyrpg_ignore_reflect,f,Boolean,0xCA,False,0,1,If the skill bypasses reflect states. Useful for physical skills and skills which are meant to remove positive states from enemies
 Skill,easyrpg_state_hit,f,Int32,0xCB,-1,0,0,Separate accuracy value for state inflictions

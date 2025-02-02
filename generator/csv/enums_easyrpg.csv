@@ -2,6 +2,13 @@ Structure,Entry,Value,Index
 EventCommand,Code,EasyRpg_TriggerEventAt,2002
 EventCommand,Code,EasyRpg_SmartMoveRoute,2003
 EventCommand,Code,EasyRpg_SmartStepToward,2004
+EventCommand,Code,ConditionalBranchEx,2020
+EventCommand,Code,ControlSwitchesEx,2021
+EventCommand,Code,ControlVarsEx,2022
+EventCommand,Code,ControlScopedSwitches,2023
+EventCommand,Code,ControlScopedVars,2024
+EventCommand,Code,ControlScopedTypeOptions,2025
+EventCommand,Code,EasyRpgStressTest,2040
 EventCommand,Code,EasyRpg_CallMovementAction,2050
 EventCommand,Code,EasyRpg_WaitForSingleMovement,2051
 EventCommand,Code,EasyRpg_AnimateVariable,2052

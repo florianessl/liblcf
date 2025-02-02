@@ -1,4 +1,10 @@
 Structure,Field,Is2k3
+EasyRpgEventPageCondition,self_switch_a,0
+EasyRpgEventPageCondition,self_switch_b,0
+EasyRpgEventPageCondition,self_var,0
+EasyRpgEventPageCondition,map_switch_a,0
+EasyRpgEventPageCondition,map_switch_b,0
+EasyRpgEventPageCondition,map_var,0
 SaveEasyRpgWindow,draw_frame,0
 SaveEasyRpgWindow,border_margin,0
 SaveEasyRpgText,draw_gradient,0
