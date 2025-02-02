@@ -1015,19 +1015,19 @@ namespace LSD_Reader {
 			/** Codepage used to store text in the savegame data */
 			codepage = 0x02,
 			/**  */
-			followers_enabled = 0x0D,
+			followers_enabled = 0x1A,
 			/**  */
-			followers_frozen = 0x0E,
+			followers_frozen = 0x1B,
 			/**  */
-			followers_auto_sync = 0x0F,
+			followers_auto_sync = 0x1C,
 			/**  */
-			followers_awaitable = 0x10,
+			followers_awaitable = 0x1D,
 			/**  */
-			follower1 = 0x11,
+			follower1 = 0x1E,
 			/**  */
-			follower2 = 0x12,
+			follower2 = 0x1F,
 			/**  */
-			follower3 = 0x13,
+			follower3 = 0x20,
 			/** User generated windows e.g. through ShowStringPicture */
 			windows = 0x64
 		};

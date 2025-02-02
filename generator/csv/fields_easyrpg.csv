@@ -2,13 +2,13 @@ Structure,Field,Size Field?,Type,Index,Default Value,PersistIfDefault,Is2k3,Comm
 Save,easyrpg_data,f,SaveEasyRpgData,0xC8,,0,0,Additional save data written by EasyRPG Player
 SaveEasyRpgData,version,,Int32,0x01,0,0,0,Savegame version
 SaveEasyRpgData,codepage,,Int32,0x02,0,0,0,Codepage used to store text in the savegame data
-SaveEasyRpgData,followers_enabled,,Boolean,0x0D,False,0,0,
-SaveEasyRpgData,followers_frozen,,Boolean,0x0E,False,0,0,
-SaveEasyRpgData,followers_auto_sync,,Boolean,0x0F,True,0,0,
-SaveEasyRpgData,followers_awaitable,,Boolean,0x10,False,0,0,
-SaveEasyRpgData,follower1,,SaveFollowerLocation,0x11,,1,0,
-SaveEasyRpgData,follower2,,SaveFollowerLocation,0x12,,1,0,
-SaveEasyRpgData,follower3,,SaveFollowerLocation,0x13,,1,0,
+SaveEasyRpgData,followers_enabled,,Boolean,0x1A,False,0,0,
+SaveEasyRpgData,followers_frozen,,Boolean,0x1B,False,0,0,
+SaveEasyRpgData,followers_auto_sync,,Boolean,0x1C,True,0,0,
+SaveEasyRpgData,followers_awaitable,,Boolean,0x1D,False,0,0,
+SaveEasyRpgData,follower1,,SaveFollowerLocation,0x1E,,1,0,
+SaveEasyRpgData,follower2,,SaveFollowerLocation,0x1F,,1,0,
+SaveEasyRpgData,follower3,,SaveFollowerLocation,0x20,,1,0,
 SaveEasyRpgData,windows,,Array<SaveEasyRpgWindow>,0x64,,0,0,User generated windows e.g. through ShowStringPicture
 SaveEventExecFrame,maniac_event_info,f,Ref<ManiacEventInfo>,0x0E,0,0,0,Event info bitfield
 SaveEventExecFrame,maniac_event_id,f,Int32,0x0F,0,0,0,Event ID
