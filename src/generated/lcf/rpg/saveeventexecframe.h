@@ -42,6 +42,7 @@ namespace rpg {
 		std::vector<bool> easyrpg_frame_switches;
 		std::vector<uint32_t> easyrpg_frame_switches_carry_flags_in;
 		std::vector<uint32_t> easyrpg_frame_switches_carry_flags_out;
+		std::vector<int32_t> easyrpg_frame_variables;
 		std::vector<uint32_t> easyrpg_frame_variables_carry_flags_in;
 		std::vector<uint32_t> easyrpg_frame_variables_carry_flags_out;
 	};
@@ -61,6 +62,7 @@ namespace rpg {
 		&& l.easyrpg_frame_switches == r.easyrpg_frame_switches
 		&& l.easyrpg_frame_switches_carry_flags_in == r.easyrpg_frame_switches_carry_flags_in
 		&& l.easyrpg_frame_switches_carry_flags_out == r.easyrpg_frame_switches_carry_flags_out
+		&& l.easyrpg_frame_variables == r.easyrpg_frame_variables
 		&& l.easyrpg_frame_variables_carry_flags_in == r.easyrpg_frame_variables_carry_flags_in
 		&& l.easyrpg_frame_variables_carry_flags_out == r.easyrpg_frame_variables_carry_flags_out;
 	}

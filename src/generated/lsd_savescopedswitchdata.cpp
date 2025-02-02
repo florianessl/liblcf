@@ -20,6 +20,13 @@ namespace lcf {
 
 template <>
 char const* const Struct<rpg::SaveScopedSwitchData>::name = "SaveScopedSwitchData";
+static TypedField<rpg::SaveScopedSwitchData, int32_t> static_id(
+	&rpg::SaveScopedSwitchData::id,
+	LSD_Reader::ChunkSaveScopedSwitchData::id,
+	"id",
+	1,
+	0
+);
 static TypedField<rpg::SaveScopedSwitchData, int32_t> static_scope(
 	&rpg::SaveScopedSwitchData::scope,
 	LSD_Reader::ChunkSaveScopedSwitchData::scope,
@@ -59,6 +66,7 @@ static TypedField<rpg::SaveScopedSwitchData, bool> static_auto_reset(
 
 template <>
 Field<rpg::SaveScopedSwitchData> const* Struct<rpg::SaveScopedSwitchData>::fields[] = {
+	&static_id,
 	&static_scope,
 	&static_on,
 	&static_map_id,

@@ -17,7 +17,8 @@ namespace rpg {
 
 std::ostream& operator<<(std::ostream& os, const SaveScopedSwitchData& obj) {
 	os << "SaveScopedSwitchData{";
-	os << "scope="<< obj.scope;
+	os << "id="<< obj.id;
+	os << ", scope="<< obj.scope;
 	os << ", on="<< obj.on;
 	os << ", map_id="<< obj.map_id;
 	os << ", event_id="<< obj.event_id;

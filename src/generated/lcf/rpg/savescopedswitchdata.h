@@ -25,6 +25,7 @@ namespace lcf {
 namespace rpg {
 	class SaveScopedSwitchData {
 	public:
+		int32_t id = 1;
 		int32_t scope = 0;
 		bool on = false;
 		int32_t map_id = 0;
@@ -33,7 +34,8 @@ namespace rpg {
 	};
 
 	inline bool operator==(const SaveScopedSwitchData& l, const SaveScopedSwitchData& r) {
-		return l.scope == r.scope
+		return l.id == r.id
+		&& l.scope == r.scope
 		&& l.on == r.on
 		&& l.map_id == r.map_id
 		&& l.event_id == r.event_id

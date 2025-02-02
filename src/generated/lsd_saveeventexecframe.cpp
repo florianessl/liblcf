@@ -130,6 +130,13 @@ static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg
 	0,
 	0
 );
+static TypedField<rpg::SaveEventExecFrame, std::vector<int32_t>> static_easyrpg_frame_variables(
+	&rpg::SaveEventExecFrame::easyrpg_frame_variables,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables,
+	"easyrpg_frame_variables",
+	0,
+	0
+);
 static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_variables_carry_flags_in(
 	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
 	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
@@ -164,6 +171,7 @@ Field<rpg::SaveEventExecFrame> const* Struct<rpg::SaveEventExecFrame>::fields[] 
 	&static_easyrpg_frame_switches,
 	&static_easyrpg_frame_switches_carry_flags_in,
 	&static_easyrpg_frame_switches_carry_flags_out,
+	&static_easyrpg_frame_variables,
 	&static_easyrpg_frame_variables_carry_flags_in,
 	&static_easyrpg_frame_variables_carry_flags_out,
 	NULL

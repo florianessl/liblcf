@@ -706,6 +706,8 @@ namespace LSD_Reader {
 			easyrpg_frame_switches_carry_flags_in = 0xD2,
 			/** Array of bitmasks indicating whether to carry over frame-scoped switches on frame pops */
 			easyrpg_frame_switches_carry_flags_out = 0xD3,
+			/** Temporary variables only valid for the current execution frame of the interpreter */
+			easyrpg_frame_variables = 0xD4,
 			/** Array of bitmasks indicating whether to carry over frame-scoped vars on frame pushes */
 			easyrpg_frame_variables_carry_flags_in = 0xD5,
 			/** Array of bitmasks indicating whether to carry over frame-scoped vars on frame pops */
@@ -1098,6 +1100,8 @@ namespace LSD_Reader {
 	};
 	struct ChunkSaveScopedSwitchData {
 		enum Index {
+			/** The local id for the scoped switch */
+			id = 0x01,
 			/**  */
 			scope = 0x02,
 			/**  */
