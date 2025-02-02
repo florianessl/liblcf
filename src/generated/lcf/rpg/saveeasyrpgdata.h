@@ -16,6 +16,8 @@
 #include <stdint.h>
 #include <vector>
 #include "lcf/rpg/saveeasyrpgwindow.h"
+#include "lcf/rpg/savescopedswitchdata.h"
+#include "lcf/rpg/savescopedvariabledata.h"
 #include "lcf/context.h"
 #include <ostream>
 #include <type_traits>
@@ -29,12 +31,24 @@ namespace rpg {
 	public:
 		int32_t version = 0;
 		int32_t codepage = 0;
+		std::vector<SaveScopedSwitchData> scoped_switches;
+		std::vector<SaveScopedVariableData> scoped_variables;
+		std::vector<bool> frame_main_switches;
+		std::vector<bool> frame_parallel_switches;
+		std::vector<int32_t> frame_main_variables;
+		std::vector<int32_t> frame_parallel_variables;
 		std::vector<SaveEasyRpgWindow> windows;
 	};
 
 	inline bool operator==(const SaveEasyRpgData& l, const SaveEasyRpgData& r) {
 		return l.version == r.version
 		&& l.codepage == r.codepage
+		&& l.scoped_switches == r.scoped_switches
+		&& l.scoped_variables == r.scoped_variables
+		&& l.frame_main_switches == r.frame_main_switches
+		&& l.frame_parallel_switches == r.frame_parallel_switches
+		&& l.frame_main_variables == r.frame_main_variables
+		&& l.frame_parallel_variables == r.frame_parallel_variables
 		&& l.windows == r.windows;
 	}
 
@@ -46,9 +60,17 @@ namespace rpg {
 
 	template <typename F, typename ParentCtx = Context<void,void>>
 	void ForEachString(SaveEasyRpgData& obj, const F& f, const ParentCtx* parent_ctx = nullptr) {
+		for (int i = 0; i < static_cast<int>(obj.scoped_switches.size()); ++i) {
+			const auto ctx3 = Context<SaveEasyRpgData, ParentCtx>{ "scoped_switches", i, &obj, parent_ctx };
+			ForEachString(obj.scoped_switches[i], f, &ctx3);
+		}
+		for (int i = 0; i < static_cast<int>(obj.scoped_variables.size()); ++i) {
+			const auto ctx4 = Context<SaveEasyRpgData, ParentCtx>{ "scoped_variables", i, &obj, parent_ctx };
+			ForEachString(obj.scoped_variables[i], f, &ctx4);
+		}
 		for (int i = 0; i < static_cast<int>(obj.windows.size()); ++i) {
-			const auto ctx3 = Context<SaveEasyRpgData, ParentCtx>{ "windows", i, &obj, parent_ctx };
-			ForEachString(obj.windows[i], f, &ctx3);
+			const auto ctx9 = Context<SaveEasyRpgData, ParentCtx>{ "windows", i, &obj, parent_ctx };
+			ForEachString(obj.windows[i], f, &ctx9);
 		}
 		(void)obj;
 		(void)f;

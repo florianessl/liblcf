@@ -109,6 +109,41 @@ static TypedField<rpg::SaveEventExecFrame, uint32_t> static_easyrpg_runtime_flag
 	0,
 	0
 );
+static TypedField<rpg::SaveEventExecFrame, std::vector<bool>> static_easyrpg_frame_switches(
+	&rpg::SaveEventExecFrame::easyrpg_frame_switches,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches,
+	"easyrpg_frame_switches",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_switches_carry_flags_in(
+	&rpg::SaveEventExecFrame::easyrpg_frame_switches_carry_flags_in,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches_carry_flags_in,
+	"easyrpg_frame_switches_carry_flags_in",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_switches_carry_flags_out(
+	&rpg::SaveEventExecFrame::easyrpg_frame_switches_carry_flags_out,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_switches_carry_flags_out,
+	"easyrpg_frame_switches_carry_flags_out",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_variables_carry_flags_in(
+	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_in,
+	"easyrpg_frame_variables_carry_flags_in",
+	0,
+	0
+);
+static TypedField<rpg::SaveEventExecFrame, std::vector<uint32_t>> static_easyrpg_frame_variables_carry_flags_out(
+	&rpg::SaveEventExecFrame::easyrpg_frame_variables_carry_flags_out,
+	LSD_Reader::ChunkSaveEventExecFrame::easyrpg_frame_variables_carry_flags_out,
+	"easyrpg_frame_variables_carry_flags_out",
+	0,
+	0
+);
 
 
 template <>
@@ -126,6 +161,11 @@ Field<rpg::SaveEventExecFrame> const* Struct<rpg::SaveEventExecFrame>::fields[] 
 	&static_maniac_loop_info_size,
 	&static_maniac_loop_info,
 	&static_easyrpg_runtime_flags,
+	&static_easyrpg_frame_switches,
+	&static_easyrpg_frame_switches_carry_flags_in,
+	&static_easyrpg_frame_switches_carry_flags_out,
+	&static_easyrpg_frame_variables_carry_flags_in,
+	&static_easyrpg_frame_variables_carry_flags_out,
 	NULL
 };
 

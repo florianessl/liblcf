@@ -131,6 +131,13 @@ static TypedField<rpg::EventPage, std::vector<rpg::EventCommand>> static_event_c
 	1,
 	0
 );
+static TypedField<rpg::EventPage, rpg::EasyRpgEventPageCondition> static_easyrpg_condition(
+	&rpg::EventPage::easyrpg_condition,
+	LMU_Reader::ChunkEventPage::easyrpg_condition,
+	"easyrpg_condition",
+	1,
+	0
+);
 
 
 template <>
@@ -151,6 +158,7 @@ Field<rpg::EventPage> const* Struct<rpg::EventPage>::fields[] = {
 	&static_move_route,
 	&static_size_event_commands,
 	&static_event_commands,
+	&static_easyrpg_condition,
 	NULL
 };
 

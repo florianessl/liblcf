@@ -171,6 +171,48 @@ static TypedField<rpg::Database, std::vector<rpg::BattlerAnimation>> static_batt
 	1,
 	1
 );
+static TypedField<rpg::Database, std::vector<rpg::Switch>> static_easyrpg_frame_switches(
+	&rpg::Database::easyrpg_frame_switches,
+	LDB_Reader::ChunkDatabase::easyrpg_frame_switches,
+	"easyrpg_frame_switches",
+	1,
+	0
+);
+static TypedField<rpg::Database, std::vector<rpg::Variable>> static_easyrpg_frame_variables(
+	&rpg::Database::easyrpg_frame_variables,
+	LDB_Reader::ChunkDatabase::easyrpg_frame_variables,
+	"easyrpg_frame_variables",
+	1,
+	0
+);
+static TypedField<rpg::Database, std::vector<rpg::ScopedSwitch>> static_easyrpg_map_switches(
+	&rpg::Database::easyrpg_map_switches,
+	LDB_Reader::ChunkDatabase::easyrpg_map_switches,
+	"easyrpg_map_switches",
+	1,
+	0
+);
+static TypedField<rpg::Database, std::vector<rpg::ScopedVariable>> static_easyrpg_map_variables(
+	&rpg::Database::easyrpg_map_variables,
+	LDB_Reader::ChunkDatabase::easyrpg_map_variables,
+	"easyrpg_map_variables",
+	1,
+	0
+);
+static TypedField<rpg::Database, std::vector<rpg::ScopedSwitch>> static_easyrpg_self_switches(
+	&rpg::Database::easyrpg_self_switches,
+	LDB_Reader::ChunkDatabase::easyrpg_self_switches,
+	"easyrpg_self_switches",
+	1,
+	0
+);
+static TypedField<rpg::Database, std::vector<rpg::ScopedVariable>> static_easyrpg_self_variables(
+	&rpg::Database::easyrpg_self_variables,
+	LDB_Reader::ChunkDatabase::easyrpg_self_variables,
+	"easyrpg_self_variables",
+	1,
+	0
+);
 
 
 template <>
@@ -197,6 +239,12 @@ Field<rpg::Database> const* Struct<rpg::Database>::fields[] = {
 	&static_classes,
 	&static_classD1,
 	&static_battleranimations,
+	&static_easyrpg_frame_switches,
+	&static_easyrpg_frame_variables,
+	&static_easyrpg_map_switches,
+	&static_easyrpg_map_variables,
+	&static_easyrpg_self_switches,
+	&static_easyrpg_self_variables,
 	NULL
 };
 

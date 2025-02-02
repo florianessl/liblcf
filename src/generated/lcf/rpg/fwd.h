@@ -30,6 +30,7 @@ namespace rpg {
 	class Class;
 	class CommonEvent;
 	class Database;
+	class EasyRpgEventPageCondition;
 	class Encounter;
 	class Enemy;
 	class EnemyAction;
@@ -62,11 +63,15 @@ namespace rpg {
 	class SavePanorama;
 	class SavePartyLocation;
 	class SavePicture;
+	class SaveScopedSwitchData;
+	class SaveScopedVariableData;
 	class SaveScreen;
 	class SaveSystem;
 	class SaveTarget;
 	class SaveTitle;
 	class SaveVehicleLocation;
+	class ScopedSwitch;
+	class ScopedVariable;
 	class Skill;
 	class Sound;
 	class Start;

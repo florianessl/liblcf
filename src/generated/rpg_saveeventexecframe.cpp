@@ -40,6 +40,31 @@ std::ostream& operator<<(std::ostream& os, const SaveEventExecFrame& obj) {
 	}
 	os << "]";
 	os << ", easyrpg_runtime_flags="<< obj.easyrpg_runtime_flags;
+	os << ", easyrpg_frame_switches=";
+	for (size_t i = 0; i < obj.easyrpg_frame_switches.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_switches[i];
+	}
+	os << "]";
+	os << ", easyrpg_frame_switches_carry_flags_in=";
+	for (size_t i = 0; i < obj.easyrpg_frame_switches_carry_flags_in.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_switches_carry_flags_in[i];
+	}
+	os << "]";
+	os << ", easyrpg_frame_switches_carry_flags_out=";
+	for (size_t i = 0; i < obj.easyrpg_frame_switches_carry_flags_out.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_switches_carry_flags_out[i];
+	}
+	os << "]";
+	os << ", easyrpg_frame_variables_carry_flags_in=";
+	for (size_t i = 0; i < obj.easyrpg_frame_variables_carry_flags_in.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_variables_carry_flags_in[i];
+	}
+	os << "]";
+	os << ", easyrpg_frame_variables_carry_flags_out=";
+	for (size_t i = 0; i < obj.easyrpg_frame_variables_carry_flags_out.size(); ++i) {
+		os << (i == 0 ? "[" : ", ") << obj.easyrpg_frame_variables_carry_flags_out[i];
+	}
+	os << "]";
 	os << "}";
 	return os;
 }

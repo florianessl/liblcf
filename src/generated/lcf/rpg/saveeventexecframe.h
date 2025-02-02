@@ -39,6 +39,11 @@ namespace rpg {
 		int32_t maniac_loop_info_size = 0;
 		std::vector<int32_t> maniac_loop_info;
 		uint32_t easyrpg_runtime_flags = 0;
+		std::vector<bool> easyrpg_frame_switches;
+		std::vector<uint32_t> easyrpg_frame_switches_carry_flags_in;
+		std::vector<uint32_t> easyrpg_frame_switches_carry_flags_out;
+		std::vector<uint32_t> easyrpg_frame_variables_carry_flags_in;
+		std::vector<uint32_t> easyrpg_frame_variables_carry_flags_out;
 	};
 
 	inline bool operator==(const SaveEventExecFrame& l, const SaveEventExecFrame& r) {
@@ -52,7 +57,12 @@ namespace rpg {
 		&& l.maniac_event_page_id == r.maniac_event_page_id
 		&& l.maniac_loop_info_size == r.maniac_loop_info_size
 		&& l.maniac_loop_info == r.maniac_loop_info
-		&& l.easyrpg_runtime_flags == r.easyrpg_runtime_flags;
+		&& l.easyrpg_runtime_flags == r.easyrpg_runtime_flags
+		&& l.easyrpg_frame_switches == r.easyrpg_frame_switches
+		&& l.easyrpg_frame_switches_carry_flags_in == r.easyrpg_frame_switches_carry_flags_in
+		&& l.easyrpg_frame_switches_carry_flags_out == r.easyrpg_frame_switches_carry_flags_out
+		&& l.easyrpg_frame_variables_carry_flags_in == r.easyrpg_frame_variables_carry_flags_in
+		&& l.easyrpg_frame_variables_carry_flags_out == r.easyrpg_frame_variables_carry_flags_out;
 	}
 
 	inline bool operator!=(const SaveEventExecFrame& l, const SaveEventExecFrame& r) {

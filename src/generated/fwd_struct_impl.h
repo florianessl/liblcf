@@ -93,6 +93,11 @@ template <>
 Field<rpg::Database> const* Struct<rpg::Database>::fields[];
 
 template <>
+const char* const Struct<rpg::EasyRpgEventPageCondition>::name;
+template <>
+Field<rpg::EasyRpgEventPageCondition> const* Struct<rpg::EasyRpgEventPageCondition>::fields[];
+
+template <>
 const char* const Struct<rpg::Encounter>::name;
 template <>
 Field<rpg::Encounter> const* Struct<rpg::Encounter>::fields[];
@@ -253,6 +258,16 @@ template <>
 Field<rpg::SavePicture> const* Struct<rpg::SavePicture>::fields[];
 
 template <>
+const char* const Struct<rpg::SaveScopedSwitchData>::name;
+template <>
+Field<rpg::SaveScopedSwitchData> const* Struct<rpg::SaveScopedSwitchData>::fields[];
+
+template <>
+const char* const Struct<rpg::SaveScopedVariableData>::name;
+template <>
+Field<rpg::SaveScopedVariableData> const* Struct<rpg::SaveScopedVariableData>::fields[];
+
+template <>
 const char* const Struct<rpg::SaveScreen>::name;
 template <>
 Field<rpg::SaveScreen> const* Struct<rpg::SaveScreen>::fields[];
@@ -276,6 +291,16 @@ template <>
 const char* const Struct<rpg::SaveVehicleLocation>::name;
 template <>
 Field<rpg::SaveVehicleLocation> const* Struct<rpg::SaveVehicleLocation>::fields[];
+
+template <>
+const char* const Struct<rpg::ScopedSwitch>::name;
+template <>
+Field<rpg::ScopedSwitch> const* Struct<rpg::ScopedSwitch>::fields[];
+
+template <>
+const char* const Struct<rpg::ScopedVariable>::name;
+template <>
+Field<rpg::ScopedVariable> const* Struct<rpg::ScopedVariable>::fields[];
 
 template <>
 const char* const Struct<rpg::Skill>::name;

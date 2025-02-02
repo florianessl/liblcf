@@ -87,7 +87,9 @@ namespace LMU_Reader {
 			/** Integer */
 			event_commands_size = 0x33,
 			/** Array - rpg::EventCommand */
-			event_commands = 0x34
+			event_commands = 0x34,
+			/**  */
+			easyrpg_condition = 0xC8
 		};
 	};
 	struct ChunkEvent {
@@ -168,6 +170,32 @@ namespace LMU_Reader {
 			save_count_2k3e = 0x5A,
 			/** Integer */
 			save_count = 0x5B
+		};
+	};
+	struct ChunkEasyRpgEventPageCondition {
+		enum Index {
+			/**  */
+			flags = 0x01,
+			/** Integer */
+			self_switch_a_id = 0x02,
+			/** Integer */
+			self_switch_b_id = 0x03,
+			/** Integer */
+			self_var_id = 0x04,
+			/** Integer */
+			self_var_value = 0x05,
+			/** Integer */
+			self_var_operator = 0x06,
+			/** Integer */
+			map_switch_a_id = 0x07,
+			/** Integer */
+			map_switch_b_id = 0x08,
+			/** Integer */
+			map_var_id = 0x09,
+			/** Integer */
+			map_var_value = 0x0A,
+			/** Integer */
+			map_var_operator = 0x0B
 		};
 	};
 }

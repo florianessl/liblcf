@@ -699,7 +699,17 @@ namespace LSD_Reader {
 			/** One group of (Current loop count, end loop value) for each identation */
 			maniac_loop_info = 0x12,
 			/**  */
-			easyrpg_runtime_flags = 0xC8
+			easyrpg_runtime_flags = 0xC8,
+			/** Temporary switches only valid for the current execution frame of the interpreter */
+			easyrpg_frame_switches = 0xD1,
+			/** Array of bitmasks indicating whether to carry over frame-scoped switches on frame pushes */
+			easyrpg_frame_switches_carry_flags_in = 0xD2,
+			/** Array of bitmasks indicating whether to carry over frame-scoped switches on frame pops */
+			easyrpg_frame_switches_carry_flags_out = 0xD3,
+			/** Array of bitmasks indicating whether to carry over frame-scoped vars on frame pushes */
+			easyrpg_frame_variables_carry_flags_in = 0xD5,
+			/** Array of bitmasks indicating whether to carry over frame-scoped vars on frame pops */
+			easyrpg_frame_variables_carry_flags_out = 0xD6
 		};
 	};
 	struct ChunkSaveEventExecState {
@@ -1026,6 +1036,26 @@ namespace LSD_Reader {
 			version = 0x01,
 			/** Codepage used to store text in the savegame data */
 			codepage = 0x02,
+			/** Scoped switches valid for either a single map or a specific event on a map (Self switches) */
+			scoped_switches = 0x10,
+			/** Scoped variables valid for either a single map or a specific event on a map */
+			scoped_variables = 0x11,
+			/**  */
+			frame_main_switches_size = 0x12,
+			/** Temporary switches only valid for the current execution frame of the main interpreter */
+			frame_main_switches = 0x13,
+			/**  */
+			frame_parallel_switches_size = 0x14,
+			/** Temporary switches only valid for the current execution frame of the current parallel interpreter */
+			frame_parallel_switches = 0x15,
+			/**  */
+			frame_main_variables_size = 0x16,
+			/** Temporary variables only valid for the current execution frame of the main interpreter */
+			frame_main_variables = 0x17,
+			/**  */
+			frame_parallel_variables_size = 0x18,
+			/** Temporary variables only valid for the current execution frame of the current parallel interpreter */
+			frame_parallel_variables = 0x19,
 			/** User generated windows e.g. through ShowStringPicture */
 			windows = 0x64
 		};
@@ -1064,6 +1094,36 @@ namespace LSD_Reader {
 			line_spacing = 0x07,
 			/** Various text settings */
 			flags = 0x08
+		};
+	};
+	struct ChunkSaveScopedSwitchData {
+		enum Index {
+			/**  */
+			scope = 0x02,
+			/**  */
+			on = 0x03,
+			/**  */
+			map_id = 0x04,
+			/**  */
+			event_id = 0x05,
+			/**  */
+			auto_reset = 0x06
+		};
+	};
+	struct ChunkSaveScopedVariableData {
+		enum Index {
+			/** The local id for the scoped variable */
+			id = 0x01,
+			/**  */
+			scope = 0x02,
+			/**  */
+			value = 0x03,
+			/**  */
+			map_id = 0x04,
+			/**  */
+			event_id = 0x05,
+			/**  */
+			auto_reset = 0x05
 		};
 	};
 }

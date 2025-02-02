@@ -1535,7 +1535,55 @@ namespace LDB_Reader {
 			/** Duplicated? - Not used - RPG2003 */
 			classD1 = 0x1F,
 			/** rpg::BattlerAnimation - RPG2003 */
-			battleranimations = 0x20
+			battleranimations = 0x20,
+			/**  */
+			easyrpg_frame_switches = 0xC8,
+			/**  */
+			easyrpg_frame_variables = 0xC9,
+			/**  */
+			easyrpg_map_switches = 0xCA,
+			/**  */
+			easyrpg_map_variables = 0xCB,
+			/**  */
+			easyrpg_self_switches = 0xCC,
+			/**  */
+			easyrpg_self_variables = 0xCD
+		};
+	};
+	struct ChunkScopedSwitch {
+		enum Index {
+			/** String */
+			name = 0x01,
+			/**  */
+			default_value = 0x02,
+			/**  */
+			default_value_defined = 0x03,
+			/**  */
+			is_readonly = 0x04,
+			/**  */
+			show_in_editor = 0x05,
+			/**  */
+			auto_reset = 0x06,
+			/**  */
+			map_group_inherited_value = 0x07
+		};
+	};
+	struct ChunkScopedVariable {
+		enum Index {
+			/** String */
+			name = 0x01,
+			/**  */
+			default_value = 0x02,
+			/**  */
+			default_value_defined = 0x03,
+			/**  */
+			is_readonly = 0x04,
+			/**  */
+			show_in_editor = 0x05,
+			/**  */
+			auto_reset = 0x06,
+			/**  */
+			map_group_inherited_value = 0x07
 		};
 	};
 }
