@@ -55,6 +55,7 @@ namespace rpg {
 	class SaveEasyRpgWindow;
 	class SaveEventExecFrame;
 	class SaveEventExecState;
+	class SaveFollowerLocation;
 	class SaveInventory;
 	class SaveMapEvent;
 	class SaveMapEventBase;

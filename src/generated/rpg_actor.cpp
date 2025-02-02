@@ -83,6 +83,7 @@ std::ostream& operator<<(std::ostream& os, const Actor& obj) {
 	os << "]";
 	os << ", easyrpg_dual_attack="<< obj.easyrpg_dual_attack;
 	os << ", easyrpg_attack_all="<< obj.easyrpg_attack_all;
+	os << ", easyrpg_no_follow="<< obj.easyrpg_no_follow;
 	os << "}";
 	return os;
 }

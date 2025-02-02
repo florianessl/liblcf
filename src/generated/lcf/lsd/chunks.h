@@ -1014,6 +1014,20 @@ namespace LSD_Reader {
 			version = 0x01,
 			/** Codepage used to store text in the savegame data */
 			codepage = 0x02,
+			/**  */
+			followers_enabled = 0x0D,
+			/**  */
+			followers_frozen = 0x0E,
+			/**  */
+			followers_auto_sync = 0x0F,
+			/**  */
+			followers_awaitable = 0x10,
+			/**  */
+			follower1 = 0x11,
+			/**  */
+			follower2 = 0x12,
+			/**  */
+			follower3 = 0x13,
 			/** User generated windows e.g. through ShowStringPicture */
 			windows = 0x64
 		};
@@ -1052,6 +1066,104 @@ namespace LSD_Reader {
 			line_spacing = 0x07,
 			/** Various text settings */
 			flags = 0x08
+		};
+	};
+	struct ChunkSaveFollowerLocation {
+		enum Index {
+			/** Flag */
+			active = 0x01,
+			/** ? */
+			map_id = 0x0B,
+			/** ? */
+			position_x = 0x0C,
+			/** ? */
+			position_y = 0x0D,
+			/** Sprite direction */
+			direction = 0x15,
+			/** Facing direction */
+			facing = 0x16,
+			/** ? */
+			anim_frame = 0x17,
+			/** 0 or 3 - Transparency level of the current event page */
+			transparency = 0x18,
+			/** From 0 to 255 - Remaining distance of the current move */
+			remaining_step = 0x1F,
+			/** ? */
+			move_frequency = 0x20,
+			/** ? */
+			layer = 0x21,
+			/** Flag */
+			overlap_forbidden = 0x22,
+			/**  */
+			animation_type = 0x23,
+			/** facing locked */
+			lock_facing = 0x24,
+			/**  */
+			move_speed = 0x25,
+			/** chunks: rpg::MoveRoute */
+			move_route = 0x29,
+			/** Use custom move route */
+			move_route_overwrite = 0x2A,
+			/** Index of MoveEvent command route */
+			move_route_index = 0x2B,
+			/** Boolean - Repeating move route has been completed at least once */
+			move_route_finished = 0x2C,
+			/** When true the sprite is not displayed */
+			sprite_hidden = 0x2E,
+			/** Whether the move route (MoveEvent or defined route) activated through mode. Almost the same as 0x33 (through). 0x2F represents that by MoveEvent the through mode has been activated; but 0x33 is what's actually checked for collisions. In several cases; 0x33 will be changed to indicate a condition in which an event or the hero is in through mode through other means than a MoveEvent; which can be: an event with an empty page being activated; player pressing Ctrl in test play; hero entering or exiting a vehicle (only very briefly) */
+			move_route_through = 0x2F,
+			/** ? */
+			anim_paused = 0x30,
+			/** Can go through anything */
+			through = 0x33,
+			/** ? */
+			stop_count = 0x34,
+			/** ? */
+			anim_count = 0x35,
+			/** 2^move_frequency unless it's a random move route - Once stop_count reaches it; the next move command is executed */
+			max_stop_count = 0x36,
+			/** ? */
+			jumping = 0x3D,
+			/** ? */
+			begin_jump_x = 0x3E,
+			/** ? */
+			begin_jump_y = 0x3F,
+			/** Indicates paused movement for an event; set while the player is talking to the event so that it won't run away */
+			pause = 0x47,
+			/** Flag */
+			flying = 0x48,
+			/** ? */
+			sprite_name = 0x49,
+			/** ? */
+			sprite_id = 0x4A,
+			/** Flag whether an event (the hero is also an event) in the current frame processed their movement actions (may also be none). This is required because events are asked every frame to initiate their next movement step if required; but not necessarily in order; because checking passability for an event trying to move onto another tile will trigger any event's movement initiation which is on the target tile (because this way the target event may move away; allowing the other event to move to that tile). This flag ensures that every event processes their possible movements only once per frame even if it was already asked to do so out of order as part of another event's movement initiation. */
+			processed = 0x4B,
+			/** int */
+			flash_red = 0x51,
+			/** int */
+			flash_green = 0x52,
+			/** int */
+			flash_blue = 0x53,
+			/** double */
+			flash_current_level = 0x54,
+			/** int */
+			flash_time_left = 0x55,
+			/** Tracks how often the current move operation in a move route failed */
+			easyrpg_move_failure_count = 0xC9,
+			/** Which follower */
+			follower_id = 0x65,
+			/** Which actor */
+			actor_id = 0x66,
+			/**  */
+			is_init = 0x68,
+			/**  */
+			is_frozen = 0x69,
+			/**  */
+			auto_sync = 0x6A,
+			/**  */
+			force_reset = 0x6B,
+			/**  */
+			awaitable = 0x6C
 		};
 	};
 }

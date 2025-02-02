@@ -75,6 +75,7 @@ namespace rpg {
 		DBBitArray easyrpg_unarmed_attribute_set;
 		bool easyrpg_dual_attack = false;
 		bool easyrpg_attack_all = false;
+		bool easyrpg_no_follow = false;
 	};
 
 	inline bool operator==(const Actor& l, const Actor& r) {
@@ -119,7 +120,8 @@ namespace rpg {
 		&& l.easyrpg_unarmed_state_chance == r.easyrpg_unarmed_state_chance
 		&& l.easyrpg_unarmed_attribute_set == r.easyrpg_unarmed_attribute_set
 		&& l.easyrpg_dual_attack == r.easyrpg_dual_attack
-		&& l.easyrpg_attack_all == r.easyrpg_attack_all;
+		&& l.easyrpg_attack_all == r.easyrpg_attack_all
+		&& l.easyrpg_no_follow == r.easyrpg_no_follow;
 	}
 
 	inline bool operator!=(const Actor& l, const Actor& r) {

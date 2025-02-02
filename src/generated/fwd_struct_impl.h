@@ -218,6 +218,11 @@ template <>
 Field<rpg::SaveEventExecState> const* Struct<rpg::SaveEventExecState>::fields[];
 
 template <>
+const char* const Struct<rpg::SaveFollowerLocation>::name;
+template <>
+Field<rpg::SaveFollowerLocation> const* Struct<rpg::SaveFollowerLocation>::fields[];
+
+template <>
 const char* const Struct<rpg::SaveInventory>::name;
 template <>
 Field<rpg::SaveInventory> const* Struct<rpg::SaveInventory>::fields[];

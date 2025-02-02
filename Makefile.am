@@ -127,6 +127,7 @@ liblcf_la_SOURCES = \
 	src/generated/lsd_saveeasyrpgwindow_flags.h \
 	src/generated/lsd_saveeventexecframe.cpp \
 	src/generated/lsd_saveeventexecstate.cpp \
+	src/generated/lsd_savefollowerlocation.cpp \
 	src/generated/lsd_saveinventory.cpp \
 	src/generated/lsd_savemapevent.cpp \
 	src/generated/lsd_savemapeventbase.cpp \
@@ -181,6 +182,7 @@ liblcf_la_SOURCES = \
 	src/generated/rpg_saveeasyrpgwindow.cpp \
 	src/generated/rpg_saveeventexecframe.cpp \
 	src/generated/rpg_saveeventexecstate.cpp \
+	src/generated/rpg_savefollowerlocation.cpp \
 	src/generated/rpg_saveinventory.cpp \
 	src/generated/rpg_savemapevent.cpp \
 	src/generated/rpg_savemapeventbase.cpp \
@@ -293,6 +295,7 @@ lcfrpginclude_HEADERS = \
 	src/generated/lcf/rpg/saveeasyrpgwindow.h \
 	src/generated/lcf/rpg/saveeventexecframe.h \
 	src/generated/lcf/rpg/saveeventexecstate.h \
+	src/generated/lcf/rpg/savefollowerlocation.h \
 	src/generated/lcf/rpg/saveinventory.h \
 	src/generated/lcf/rpg/savemapevent.h \
 	src/generated/lcf/rpg/savemapeventbase.h \

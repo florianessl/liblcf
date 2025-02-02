@@ -338,6 +338,13 @@ static TypedField<rpg::Actor, bool> static_easyrpg_attack_all(
 	0,
 	0
 );
+static TypedField<rpg::Actor, bool> static_easyrpg_no_follow(
+	&rpg::Actor::easyrpg_no_follow,
+	LDB_Reader::ChunkActor::easyrpg_no_follow,
+	"easyrpg_no_follow",
+	0,
+	0
+);
 
 
 template <>
@@ -388,6 +395,7 @@ Field<rpg::Actor> const* Struct<rpg::Actor>::fields[] = {
 	&static_easyrpg_unarmed_attribute_set,
 	&static_easyrpg_dual_attack,
 	&static_easyrpg_attack_all,
+	&static_easyrpg_no_follow,
 	NULL
 };
 

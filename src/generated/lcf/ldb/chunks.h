@@ -119,7 +119,9 @@ namespace LDB_Reader {
 			/** If the actors unarmed physical attacks hits twice */
 			easyrpg_dual_attack = 0xD4,
 			/** If the actors unarmed physical targets the entire enemy party */
-			easyrpg_attack_all = 0xD5
+			easyrpg_attack_all = 0xD5,
+			/**  */
+			easyrpg_no_follow = 0xD6
 		};
 	};
 	struct ChunkSound {
