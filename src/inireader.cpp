@@ -161,6 +161,22 @@ bool INIReader::HasValue(std::string_view section, std::string_view name) const
 	return _values.find(key) != _values.end();
 }
 
+std::map<std::string, std::string> INIReader::GetSection(std::string_view section) const {
+	std::map<std::string, std::string> result;
+
+	std::string section_lc = std::string(section);
+	std::transform(section_lc.begin(), section_lc.end(), section_lc.begin(), ::tolower);
+
+	for (auto it = _values.begin(); it != _values.end(); ++it) {
+		auto& key = it->first;
+		if (key.size() > section_lc.size() + 2 && key.rfind(section_lc, 0) == 0 && key[section_lc.size()] == '=') {
+			std::string name = key.substr(section_lc.size() + 1);
+			result[name] = it->second;
+		}
+	}
+	return result;
+}
+
 std::string INIReader::MakeKey(std::string_view section, std::string_view name)
 {
 	std::string key = std::string(section) + "=" + std::string(name);

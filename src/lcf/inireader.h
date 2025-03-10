@@ -32,6 +32,7 @@
 #ifndef LCF_INIREADER_H
 #define LCF_INIREADER_H
 
+#include <map>
 #include <unordered_map>
 #include <string>
 #include <string_view>
@@ -81,6 +82,9 @@ public:
 
 	// Return true if a value exists with the given section and field names.
 	bool HasValue(std::string_view section, std::string_view name) const;
+
+	// Return the contents of an entire section TODO
+	std::map<std::string, std::string> GetSection(std::string_view section) const;
 
 private:
 	int _error;
