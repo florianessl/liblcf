@@ -54,6 +54,26 @@ void RawStruct<rpg::MoveCommand>::ReadLcf(rpg::MoveCommand& ref, LcfReader& stre
 			stream.Read(ref.parameter_b);
 			stream.Read(ref.parameter_c);
 			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveSpeed:
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveFrequency:
+		case rpg::MoveCommand::Code::EasyRpg_SetTransparency:
+		case rpg::MoveCommand::Code::EasyRpg_SetLayer:
+		case rpg::MoveCommand::Code::EasyRpg_SetFlying:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFixed:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFrame:
+			stream.Read(ref.parameter_a);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_CloneEventGraphic:
+		case rpg::MoveCommand::Code::EasyRpg_CloneActorGraphic:
+			stream.Read(ref.parameter_a);
+			stream.Read(ref.parameter_b);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetFixedGraphic:
+			stream.ReadString(ref.parameter_string, stream.ReadInt());
+			stream.Read(ref.parameter_a);
+			stream.Read(ref.parameter_b);
+			stream.Read(ref.parameter_c);
+			break;
 		default: break;
 	}
 }
@@ -76,6 +96,26 @@ void RawStruct<rpg::MoveCommand>::WriteLcf(const rpg::MoveCommand& ref, LcfWrite
 		case rpg::MoveCommand::Code::play_sound_effect:
 			stream.WriteInt(stream.Decode(ref.parameter_string).size());
 			stream.Write(ref.parameter_string);
+			stream.Write(ref.parameter_a);
+			stream.Write(ref.parameter_b);
+			stream.Write(ref.parameter_c);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveSpeed:
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveFrequency:
+		case rpg::MoveCommand::Code::EasyRpg_SetTransparency:
+		case rpg::MoveCommand::Code::EasyRpg_SetLayer:
+		case rpg::MoveCommand::Code::EasyRpg_SetFlying:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFixed:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFrame:
+			stream.Write(ref.parameter_a);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_CloneEventGraphic:
+		case rpg::MoveCommand::Code::EasyRpg_CloneActorGraphic:
+			stream.Write(ref.parameter_a);
+			stream.Write(ref.parameter_b);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetFixedGraphic:
+			stream.WriteInt(stream.Decode(ref.parameter_string).size());
 			stream.Write(ref.parameter_a);
 			stream.Write(ref.parameter_b);
 			stream.Write(ref.parameter_c);
@@ -107,6 +147,27 @@ int RawStruct<rpg::MoveCommand>::LcfSize(const rpg::MoveCommand& ref, LcfWriter&
 			result += LcfReader::IntSize(ref.parameter_b);
 			result += LcfReader::IntSize(ref.parameter_c);
 			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveSpeed:
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveFrequency:
+		case rpg::MoveCommand::Code::EasyRpg_SetTransparency:
+		case rpg::MoveCommand::Code::EasyRpg_SetLayer:
+		case rpg::MoveCommand::Code::EasyRpg_SetFlying:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFixed:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFrame:
+			result += LcfReader::IntSize(ref.parameter_a);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_CloneEventGraphic:
+		case rpg::MoveCommand::Code::EasyRpg_CloneActorGraphic:
+			result += LcfReader::IntSize(ref.parameter_a);
+			result += LcfReader::IntSize(ref.parameter_b);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetFixedGraphic:
+			result += LcfReader::IntSize(stream.Decode(ref.parameter_string).size());
+			result += stream.Decode(ref.parameter_string).size();
+			result += LcfReader::IntSize(ref.parameter_a);
+			result += LcfReader::IntSize(ref.parameter_b);
+			result += LcfReader::IntSize(ref.parameter_c);
+			break;
 		default: break;
 	}
 	return result;
@@ -128,6 +189,26 @@ void RawStruct<rpg::MoveCommand>::WriteXml(const rpg::MoveCommand& ref, XmlWrite
 			stream.WriteNode("parameter_a", ref.parameter_a);
 			break;
 		case rpg::MoveCommand::Code::play_sound_effect:
+			stream.WriteNode("parameter_string", ref.parameter_string);
+			stream.WriteNode("parameter_a", ref.parameter_a);
+			stream.WriteNode("parameter_b", ref.parameter_b);
+			stream.WriteNode("parameter_c", ref.parameter_c);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveSpeed:
+		case rpg::MoveCommand::Code::EasyRpg_SetMoveFrequency:
+		case rpg::MoveCommand::Code::EasyRpg_SetTransparency:
+		case rpg::MoveCommand::Code::EasyRpg_SetLayer:
+		case rpg::MoveCommand::Code::EasyRpg_SetFlying:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFixed:
+		case rpg::MoveCommand::Code::EasyRpg_WaitFrame:
+			stream.WriteNode("parameter_a", ref.parameter_a);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_CloneEventGraphic:
+		case rpg::MoveCommand::Code::EasyRpg_CloneActorGraphic:
+			stream.WriteNode("parameter_a", ref.parameter_a);
+			stream.WriteNode("parameter_b", ref.parameter_b);
+			break;
+		case rpg::MoveCommand::Code::EasyRpg_SetFixedGraphic:
 			stream.WriteNode("parameter_string", ref.parameter_string);
 			stream.WriteNode("parameter_a", ref.parameter_a);
 			stream.WriteNode("parameter_b", ref.parameter_b);
