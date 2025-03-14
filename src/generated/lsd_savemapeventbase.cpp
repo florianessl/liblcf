@@ -300,6 +300,20 @@ static TypedField<rpg::SaveMapEventBase, int32_t> static_easyrpg_move_failure_co
 	0,
 	0
 );
+static TypedField<rpg::SaveMapEventBase, rpg::SaveEasyRpgShakeData> static_easyrpg_shake_x(
+	&rpg::SaveMapEventBase::easyrpg_shake_x,
+	LSD_Reader::ChunkSaveMapEventBase::easyrpg_shake_x,
+	"easyrpg_shake_x",
+	0,
+	0
+);
+static TypedField<rpg::SaveMapEventBase, rpg::SaveEasyRpgShakeData> static_easyrpg_shake_y(
+	&rpg::SaveMapEventBase::easyrpg_shake_y,
+	LSD_Reader::ChunkSaveMapEventBase::easyrpg_shake_y,
+	"easyrpg_shake_y",
+	0,
+	0
+);
 
 
 template <>
@@ -344,6 +358,8 @@ Field<rpg::SaveMapEventBase> const* Struct<rpg::SaveMapEventBase>::fields[] = {
 	&static_flash_current_level,
 	&static_flash_time_left,
 	&static_easyrpg_move_failure_count,
+	&static_easyrpg_shake_x,
+	&static_easyrpg_shake_y,
 	NULL
 };
 

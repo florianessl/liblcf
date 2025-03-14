@@ -57,6 +57,8 @@ std::ostream& operator<<(std::ostream& os, const SaveMapEventBase& obj) {
 	os << ", flash_current_level="<< obj.flash_current_level;
 	os << ", flash_time_left="<< obj.flash_time_left;
 	os << ", easyrpg_move_failure_count="<< obj.easyrpg_move_failure_count;
+	os << ", easyrpg_shake_x="<< obj.easyrpg_shake_x;
+	os << ", easyrpg_shake_y="<< obj.easyrpg_shake_y;
 	os << "}";
 	return os;
 }

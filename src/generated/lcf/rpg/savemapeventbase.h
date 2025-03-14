@@ -17,6 +17,7 @@
 #include <string>
 #include "lcf/enum_tags.h"
 #include "lcf/rpg/moveroute.h"
+#include "lcf/rpg/saveeasyrpgshakedata.h"
 #include "lcf/context.h"
 #include <ostream>
 #include <type_traits>
@@ -68,6 +69,8 @@ namespace rpg {
 		double flash_current_level = 0.0;
 		int32_t flash_time_left = 0;
 		int32_t easyrpg_move_failure_count = 0;
+		SaveEasyRpgShakeData easyrpg_shake_x;
+		SaveEasyRpgShakeData easyrpg_shake_y;
 	};
 
 	inline bool operator==(const SaveMapEventBase& l, const SaveMapEventBase& r) {
@@ -110,7 +113,9 @@ namespace rpg {
 		&& l.flash_blue == r.flash_blue
 		&& l.flash_current_level == r.flash_current_level
 		&& l.flash_time_left == r.flash_time_left
-		&& l.easyrpg_move_failure_count == r.easyrpg_move_failure_count;
+		&& l.easyrpg_move_failure_count == r.easyrpg_move_failure_count
+		&& l.easyrpg_shake_x == r.easyrpg_shake_x
+		&& l.easyrpg_shake_y == r.easyrpg_shake_y;
 	}
 
 	inline bool operator!=(const SaveMapEventBase& l, const SaveMapEventBase& r) {
@@ -123,6 +128,10 @@ namespace rpg {
 	void ForEachString(SaveMapEventBase& obj, const F& f, const ParentCtx* parent_ctx = nullptr) {
 		const auto ctx16 = Context<SaveMapEventBase, ParentCtx>{ "move_route", -1, &obj, parent_ctx };
 		ForEachString(obj.move_route, f, &ctx16);
+		const auto ctx41 = Context<SaveMapEventBase, ParentCtx>{ "easyrpg_shake_x", -1, &obj, parent_ctx };
+		ForEachString(obj.easyrpg_shake_x, f, &ctx41);
+		const auto ctx42 = Context<SaveMapEventBase, ParentCtx>{ "easyrpg_shake_y", -1, &obj, parent_ctx };
+		ForEachString(obj.easyrpg_shake_y, f, &ctx42);
 		(void)obj;
 		(void)f;
 		(void)parent_ctx;

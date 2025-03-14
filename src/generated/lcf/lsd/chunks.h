@@ -411,6 +411,10 @@ namespace LSD_Reader {
 			/** Tracks how often the current move operation in a move route failed */
 			easyrpg_move_failure_count = 0xC9,
 			/**  */
+			easyrpg_shake_x = 0xCD,
+			/**  */
+			easyrpg_shake_y = 0xCE,
+			/**  */
 			boarding = 0x65,
 			/**  */
 			aboard = 0x66,
@@ -530,6 +534,10 @@ namespace LSD_Reader {
 			flash_time_left = 0x55,
 			/** Tracks how often the current move operation in a move route failed */
 			easyrpg_move_failure_count = 0xC9,
+			/**  */
+			easyrpg_shake_x = 0xCD,
+			/**  */
+			easyrpg_shake_y = 0xCE,
 			/** Which vehicle */
 			vehicle = 0x65,
 			/** From 0 to 255 - In flying vehicles; remaining distance to ascend */
@@ -831,7 +839,11 @@ namespace LSD_Reader {
 			/** int */
 			flash_time_left = 0x55,
 			/** Tracks how often the current move operation in a move route failed */
-			easyrpg_move_failure_count = 0xC9
+			easyrpg_move_failure_count = 0xC9,
+			/**  */
+			easyrpg_shake_x = 0xCD,
+			/**  */
+			easyrpg_shake_y = 0xCE
 		};
 	};
 	struct ChunkSaveMapEvent {
@@ -916,6 +928,10 @@ namespace LSD_Reader {
 			flash_time_left = 0x55,
 			/** Tracks how often the current move operation in a move route failed */
 			easyrpg_move_failure_count = 0xC9,
+			/**  */
+			easyrpg_shake_x = 0xCD,
+			/**  */
+			easyrpg_shake_y = 0xCE,
 			/** If true; this event is waiting for foreground execution. */
 			waiting_execution = 0x65,
 			/** Index of custom move route */
@@ -1052,6 +1068,20 @@ namespace LSD_Reader {
 			line_spacing = 0x07,
 			/** Various text settings */
 			flags = 0x08
+		};
+	};
+	struct ChunkSaveEasyRpgShakeData {
+		enum Index {
+			/**  */
+			continuous = 0x01,
+			/**  */
+			strength = 0x02,
+			/**  */
+			speed = 0x03,
+			/**  */
+			position = 0x04,
+			/**  */
+			time_left = 0x05
 		};
 	};
 }

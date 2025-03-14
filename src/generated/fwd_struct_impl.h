@@ -198,6 +198,11 @@ template <>
 Field<rpg::SaveEasyRpgData> const* Struct<rpg::SaveEasyRpgData>::fields[];
 
 template <>
+const char* const Struct<rpg::SaveEasyRpgShakeData>::name;
+template <>
+Field<rpg::SaveEasyRpgShakeData> const* Struct<rpg::SaveEasyRpgShakeData>::fields[];
+
+template <>
 const char* const Struct<rpg::SaveEasyRpgText>::name;
 template <>
 Field<rpg::SaveEasyRpgText> const* Struct<rpg::SaveEasyRpgText>::fields[];

@@ -104,6 +104,7 @@ set(LCF_SOURCES
 	src/generated/lsd_saveactor.cpp
 	src/generated/lsd_savecommonevent.cpp
 	src/generated/lsd_saveeasyrpgdata.cpp
+	src/generated/lsd_saveeasyrpgshakedata.cpp
 	src/generated/lsd_saveeasyrpgtext.cpp
 	src/generated/lsd_saveeasyrpgtext_flags.h
 	src/generated/lsd_saveeasyrpgwindow.cpp
@@ -160,6 +161,7 @@ set(LCF_SOURCES
 	src/generated/rpg_saveactor.cpp
 	src/generated/rpg_savecommonevent.cpp
 	src/generated/rpg_saveeasyrpgdata.cpp
+	src/generated/rpg_saveeasyrpgshakedata.cpp
 	src/generated/rpg_saveeasyrpgtext.cpp
 	src/generated/rpg_saveeasyrpgwindow.cpp
 	src/generated/rpg_saveeventexecframe.cpp
@@ -258,6 +260,7 @@ set(LCF_HEADERS
 	src/generated/lcf/rpg/saveactor.h
 	src/generated/lcf/rpg/savecommonevent.h
 	src/generated/lcf/rpg/saveeasyrpgdata.h
+	src/generated/lcf/rpg/saveeasyrpgshakedata.h
 	src/generated/lcf/rpg/saveeasyrpgtext.h
 	src/generated/lcf/rpg/saveeasyrpgwindow.h
 	src/generated/lcf/rpg/saveeventexecframe.h

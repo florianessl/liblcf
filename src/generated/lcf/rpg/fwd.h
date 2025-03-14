@@ -51,6 +51,7 @@ namespace rpg {
 	class SaveActor;
 	class SaveCommonEvent;
 	class SaveEasyRpgData;
+	class SaveEasyRpgShakeData;
 	class SaveEasyRpgText;
 	class SaveEasyRpgWindow;
 	class SaveEventExecFrame;

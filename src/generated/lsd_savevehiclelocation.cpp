@@ -300,6 +300,20 @@ static TypedField<rpg::SaveVehicleLocation, int32_t> static_easyrpg_move_failure
 	0,
 	0
 );
+static TypedField<rpg::SaveVehicleLocation, rpg::SaveEasyRpgShakeData> static_easyrpg_shake_x(
+	&rpg::SaveVehicleLocation::easyrpg_shake_x,
+	LSD_Reader::ChunkSaveVehicleLocation::easyrpg_shake_x,
+	"easyrpg_shake_x",
+	0,
+	0
+);
+static TypedField<rpg::SaveVehicleLocation, rpg::SaveEasyRpgShakeData> static_easyrpg_shake_y(
+	&rpg::SaveVehicleLocation::easyrpg_shake_y,
+	LSD_Reader::ChunkSaveVehicleLocation::easyrpg_shake_y,
+	"easyrpg_shake_y",
+	0,
+	0
+);
 static TypedField<rpg::SaveVehicleLocation, int32_t> static_vehicle(
 	&rpg::SaveVehicleLocation::vehicle,
 	LSD_Reader::ChunkSaveVehicleLocation::vehicle,
@@ -379,6 +393,8 @@ Field<rpg::SaveVehicleLocation> const* Struct<rpg::SaveVehicleLocation>::fields[
 	&static_flash_current_level,
 	&static_flash_time_left,
 	&static_easyrpg_move_failure_count,
+	&static_easyrpg_shake_x,
+	&static_easyrpg_shake_y,
 	&static_vehicle,
 	&static_remaining_ascent,
 	&static_remaining_descent,
