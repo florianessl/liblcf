@@ -321,6 +321,13 @@ static TypedField<rpg::SaveVehicleLocation, rpg::SaveVehicleLocation::EasyRpgEve
 	0,
 	0
 );
+static TypedField<rpg::SaveVehicleLocation, int32_t> static_easyrpg_flip(
+	&rpg::SaveVehicleLocation::easyrpg_flip,
+	LSD_Reader::ChunkSaveVehicleLocation::easyrpg_flip,
+	"easyrpg_flip",
+	0,
+	0
+);
 static TypedField<rpg::SaveVehicleLocation, int32_t> static_vehicle(
 	&rpg::SaveVehicleLocation::vehicle,
 	LSD_Reader::ChunkSaveVehicleLocation::vehicle,
@@ -403,6 +410,7 @@ Field<rpg::SaveVehicleLocation> const* Struct<rpg::SaveVehicleLocation>::fields[
 	&static_easyrpg_clone_map_id,
 	&static_easyrpg_clone_event_id,
 	&static_easyrpg_runtime_flags,
+	&static_easyrpg_flip,
 	&static_vehicle,
 	&static_remaining_ascent,
 	&static_remaining_descent,

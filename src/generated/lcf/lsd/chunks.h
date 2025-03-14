@@ -417,6 +417,8 @@ namespace LSD_Reader {
 			/** Runtime changes to the engine config */
 			easyrpg_runtime_flags = 0xCC,
 			/**  */
+			easyrpg_flip = 0xCF,
+			/**  */
 			boarding = 0x65,
 			/**  */
 			aboard = 0x66,
@@ -542,6 +544,8 @@ namespace LSD_Reader {
 			easyrpg_clone_event_id = 0xCB,
 			/** Runtime changes to the engine config */
 			easyrpg_runtime_flags = 0xCC,
+			/**  */
+			easyrpg_flip = 0xCF,
 			/** Which vehicle */
 			vehicle = 0x65,
 			/** From 0 to 255 - In flying vehicles; remaining distance to ascend */
@@ -853,7 +857,9 @@ namespace LSD_Reader {
 			/** The original event id of a cloned event */
 			easyrpg_clone_event_id = 0xCB,
 			/** Runtime changes to the engine config */
-			easyrpg_runtime_flags = 0xCC
+			easyrpg_runtime_flags = 0xCC,
+			/**  */
+			easyrpg_flip = 0xCF
 		};
 	};
 	struct ChunkSaveMapEvent {
@@ -944,6 +950,8 @@ namespace LSD_Reader {
 			easyrpg_clone_event_id = 0xCB,
 			/** Runtime changes to the engine config */
 			easyrpg_runtime_flags = 0xCC,
+			/**  */
+			easyrpg_flip = 0xCF,
 			/** If true; this event is waiting for foreground execution. */
 			waiting_execution = 0x65,
 			/** Index of custom move route */

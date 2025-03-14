@@ -29,6 +29,21 @@ namespace lcf {
 namespace rpg {
 	class SaveMapEventBase {
 	public:
+		enum EasyRpgFlip {
+			EasyRpgFlip_none = 0,
+			EasyRpgFlip_x = 1,
+			EasyRpgFlip_y = 2,
+			EasyRpgFlip_both = 3,
+			EasyRpgFlip_swap_left_right = 4
+		};
+		static constexpr auto kEasyRpgFlipTags = lcf::makeEnumTags<EasyRpgFlip>(
+			"none",
+			"x",
+			"y",
+			"both",
+			"swap_left_right"
+		);
+
 		bool active = true;
 		int32_t map_id = 0;
 		int32_t position_x = 0;
@@ -81,7 +96,12 @@ namespace rpg {
 			EasyRpgEventRuntime_Flags() noexcept: reserved_1(false)
 			{}
 		} easyrpg_runtime_flags;
+		int32_t easyrpg_flip = 0;
 	};
+	inline std::ostream& operator<<(std::ostream& os, SaveMapEventBase::EasyRpgFlip code) {
+		os << static_cast<std::underlying_type_t<decltype(code)>>(code);
+		return os;
+	}
 
 	inline bool operator==(const SaveMapEventBase::EasyRpgEventRuntime_Flags& l, const SaveMapEventBase::EasyRpgEventRuntime_Flags& r) {
 		return l.flags == r.flags;
@@ -136,7 +156,8 @@ namespace rpg {
 		&& l.easyrpg_move_failure_count == r.easyrpg_move_failure_count
 		&& l.easyrpg_clone_map_id == r.easyrpg_clone_map_id
 		&& l.easyrpg_clone_event_id == r.easyrpg_clone_event_id
-		&& l.easyrpg_runtime_flags == r.easyrpg_runtime_flags;
+		&& l.easyrpg_runtime_flags == r.easyrpg_runtime_flags
+		&& l.easyrpg_flip == r.easyrpg_flip;
 	}
 
 	inline bool operator!=(const SaveMapEventBase& l, const SaveMapEventBase& r) {
