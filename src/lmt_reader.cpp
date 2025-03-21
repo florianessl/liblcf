@@ -129,6 +129,18 @@ namespace {
 #endif
 		return TypeReader<rpg::TreeMap>::Inspect(obj, path);
 	}
+
+	template<typename V>
+	bool OverrideValue(lcf::rpg::TreeMap& obj, InspectPath& path, V&& value) {
+#ifdef LCF_DEBUG_TRACE_INSPECT
+		auto trace = TypeReader<rpg::TreeMap>::TracePath(obj, path);
+		for (auto line : trace) {
+			Log::Debug((std::string("LDB") + line).c_str());
+		}
+		path.Reset();
+#endif
+		return TypeReader<rpg::TreeMap>::OverrideValue(obj, path, value);
+	}
 }
 
 std::vector<bool> LMT_Reader::InspectBoolean(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path) {
@@ -141,6 +153,18 @@ std::vector<int> LMT_Reader::InspectInteger(const lcf::rpg::TreeMap& obj, lcf::I
 
 std::vector<std::string> LMT_Reader::InspectString(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path) {
 	return Inspect(obj, path).ToString();
+}
+
+bool LMT_Reader::OverrideBoolean(lcf::rpg::TreeMap& obj, lcf::InspectPath& path, bool value) {
+	return OverrideValue(obj, path, value);
+}
+
+bool LMT_Reader::OverrideInteger(lcf::rpg::TreeMap& obj, lcf::InspectPath& path, int value) {
+	return OverrideValue(obj, path, value);
+}
+
+bool LMT_Reader::OverrideString(lcf::rpg::TreeMap& obj, lcf::InspectPath& path, std::string_view value) {
+	return OverrideValue(obj, path, value);
 }
 
 } //namespace lcf

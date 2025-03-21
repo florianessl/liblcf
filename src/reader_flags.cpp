@@ -129,8 +129,16 @@ void Flags<S>::BeginXml(S& obj, XmlReader& stream) {
 
 template <class S>
 InspectResult Flags<S>::Inspect(const S& obj, InspectPath& path) {
-	return path.HandleVector(num_flags, [&](int idx) {
+	return path.InspectVector(num_flags, [&](int idx) {
 		return InspectResult(obj.flags[idx]);
+	});
+}
+
+template <class S>
+template<typename V>
+bool Flags<S>::_OverrideValue(S& obj, InspectPath& path, V& value) {
+	return path.TraverseVector(num_flags, [&](int idx) {
+		return lcf::TypeInspection::SetPrimitiveValue(obj.flags[idx], value);
 	});
 }
 

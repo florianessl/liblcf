@@ -114,7 +114,7 @@ InspectResult RawStruct<rpg::Rect>::Inspect(const rpg::Rect& obj, InspectPath& p
 	};
 
 	if (path.UseTags()) {
-		return path.HandleContainer([&](std::string_view field_tag) {
+		return path.InspectContainer([&](std::string_view field_tag) {
 			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
 			if (it != tags_to_id.end()) {
 				return handle_field_id(it->second);
@@ -122,7 +122,7 @@ InspectResult RawStruct<rpg::Rect>::Inspect(const rpg::Rect& obj, InspectPath& p
 			return InspectResult();
 		});
 	}
-	return path.HandleContainer(handle_field_id);
+	return path.InspectContainer(handle_field_id);
 }
 
 #ifdef LCF_DEBUG_TRACE_INSPECT

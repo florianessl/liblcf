@@ -73,6 +73,12 @@ namespace LDB_Reader {
 	std::vector<int> InspectInteger(const lcf::rpg::Database& obj, lcf::InspectPath& path);
 
 	std::vector<std::string> InspectString(const lcf::rpg::Database& obj, lcf::InspectPath& path);
+
+	bool OverrideBoolean(lcf::rpg::Database& obj, lcf::InspectPath& path, bool value);
+
+	bool OverrideInteger(lcf::rpg::Database& obj, lcf::InspectPath& path, int value);
+
+	bool OverrideString(lcf::rpg::Database& obj, lcf::InspectPath& path, std::string_view value);
 }
 
 } // namespace lcf

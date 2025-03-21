@@ -265,7 +265,7 @@ InspectResult RawStruct<rpg::MoveCommand>::Inspect(const rpg::MoveCommand& ref, 
 	};
 
 	if (path.UseTags()) {
-		return path.HandleContainer([&](std::string_view field_tag) {
+		return path.InspectContainer([&](std::string_view field_tag) {
 			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
 			if (it != tags_to_id.end()) {
 				return handle_field_id(it->second);
@@ -273,11 +273,11 @@ InspectResult RawStruct<rpg::MoveCommand>::Inspect(const rpg::MoveCommand& ref, 
 			return InspectResult();
 		});
 	}
-	return path.HandleContainer(handle_field_id);
+	return path.InspectContainer(handle_field_id);
 }
 
 InspectResult RawStruct<std::vector<rpg::MoveCommand> >::Inspect(const std::vector<rpg::MoveCommand>& ref, InspectPath& path) {
-	return path.HandleVector(ref.size(), [&](int idx) {
+	return path.InspectVector(ref.size(), [&](int idx) {
 		return RawStruct<rpg::MoveCommand>::Inspect(ref[idx], path);
 	});
 }

@@ -24,6 +24,20 @@
 #define LCF_DEBUG_TRACE_INSPECT
 
 namespace lcf {
+	
+namespace TypeInspection {
+
+template<typename T, typename V>
+bool SetPrimitiveValue(T& ref, V& value);
+template<typename V>
+bool SetBooleanValue(bool& ref, V& value);
+template<typename V>
+bool SetIntegerValue(int& ref, V& value);
+
+template<typename V>
+bool SetStringValue(std::string& ref, V& value);
+
+} //namespace TypeInspection
 
 struct InspectResult {
 	bool success ;
@@ -216,110 +230,40 @@ public:
 		cnt_extracted = 0;
 	}
 
-	template<typename T>
-	T HandleContainer(std::function<T(int)> fn_inspect) {
-		bool descended = false;
-		T result;
-
-		int field_id = this->curr_field_id();
-		if (this->curr_index() == 0) {
-			this->current_node++;
-			descended = true;
-		}
-		result = fn_inspect(field_id);
-		if (descended) {
-			this->current_node--;
-		}
-		return result;
+	InspectResult InspectContainer(std::function<InspectResult(int)> fn_inspect) {
+		return HandleContainer<InspectResult, int>(fn_inspect);
 	}
 
-	template<typename T>
-	T HandleContainer(std::function<T(std::string_view)> fn_inspect) {
-		bool descended = false;
-		T result;
-
-		std::string_view field_tag = this->curr_field_tag();
-		if (this->curr_index() == 0) {
-			this->current_node++;
-			descended = true;
-		}
-		result = fn_inspect(field_tag);
-		if (descended) {
-			this->current_node--;
-		}
-		return result;
+	InspectResult InspectContainer(std::function<InspectResult(std::string_view)> fn_inspect) {
+		return HandleContainer<InspectResult, std::string_view>(fn_inspect);
 	}
 
-	InspectResult HandleContainer(std::function<InspectResult(int)> fn_inspect) {
-		return HandleContainer<InspectResult>(fn_inspect);
+	bool TraverseContainer(std::function<bool(int)> fn_inspect) {
+		return HandleContainer<bool, int>(fn_inspect);
 	}
 
-	InspectResult HandleContainer(std::function<InspectResult(std::string_view)> fn_inspect) {
-		return HandleContainer<InspectResult>(fn_inspect);
+	bool TraverseContainer(std::function<bool(std::string_view)> fn_inspect) {
+		return HandleContainer<bool, std::string_view>(fn_inspect);
 	}
 
-	InspectResult HandleVector(const int vector_size, std::function<InspectResult(int)> fn_inspect) {
-		std::vector<int64_t> data;
-		std::vector<std::string> strings;
-		int type = 0;
-		int index_start = this->curr_index();
-		this->current_node++;
-		/*if (this->current_node < this->nodes.size()) {
-			assert(this->curr_index() == 0);
-		}*/
+	std::vector<std::string> TraceContainer(std::function<std::vector<std::string>(int)> fn_inspect) {
+		return HandleContainer<std::vector<std::string>, int>(fn_inspect);
+	}
 
-		for (int i = 0; i < this->extract_count && this->cnt_extracted < this->extract_count; ++i) {
-			if (index_start + i > vector_size) {
-				data.emplace_back(0);
-				strings.emplace_back("");
-				continue;
-			}
-			InspectResult result = fn_inspect(index_start + i - 1);
-			type = result.type;
-			if (!result.success) {
-				return {};
-			}
-			if (type < 3) {
-				for (auto elem : result.data) {
-					data.emplace_back(elem);
-					this->cnt_extracted++;
-				}
-			} else {
-				for (auto str : result.strings) {
-					strings.emplace_back(str);
-					this->cnt_extracted++;
-				}
-			}
-		}
-		if (type < 3) {
-			return InspectResult(std::move(data), type);
-		}
-		return InspectResult(std::move(strings));
+	std::vector<std::string> TraceContainer(std::function<std::vector<std::string>(std::string_view)> fn_inspect) {
+		return HandleContainer<std::vector<std::string>, std::string_view>(fn_inspect);
+	}
+
+	InspectResult InspectVector(const int vector_size, std::function<InspectResult(int)> fn_inspect) {
+		return HandleVector<InspectResult>(vector_size, fn_inspect);
+	}
+
+	bool TraverseVector(const int vector_size, std::function<bool(int)> fn_inspect) {
+		return HandleVector<bool>(vector_size, fn_inspect);
 	}
 
 	std::vector<std::string> TraceVector(const int vector_size, std::function<std::vector<std::string>(int)> fn_inspect) {
-		std::vector<std::string> data;
-		int index_start = this->curr_index();
-		this->current_node++;
-		/*if (this->current_node < this->nodes.size()) {
-			assert(this->curr_index() == 0);
-		}*/
-
-		for (int i = 0; i < this->extract_count && this->cnt_extracted < this->extract_count; ++i) {
-			if (index_start + i > vector_size) {
-				data.push_back("[" + std::to_string(index_start + i) + "]<not-found>");
-				continue;
-			}
-			std::vector<std::string> result = fn_inspect(index_start + i - 1);
-			if (result.empty()) {
-				return {};
-			}
-			for (auto elem : result) {
-				data.push_back("[" + std::to_string(index_start + i) + "]" + elem);
-				this->cnt_extracted++;
-			}
-		}
-		return data;
+		return HandleVector<std::vector<std::string>>(vector_size, fn_inspect);
 	}
 protected:
 	int curr_field_id() {
@@ -332,6 +276,93 @@ protected:
 	}
 	int curr_index() {
 		return nodes[current_node].index;
+	}
+
+	template<typename T, typename F>
+	T HandleContainer(std::function<T(F)> fn_inspect) {
+		T result;
+
+		bool descended = false;
+		auto opt_descend = [&]() {
+			if (this->curr_index() == 0) {
+				this->current_node++;
+				descended = true;
+			}
+		};
+
+		if constexpr (std::is_same<F, int>::value) {
+			int field_id = this->curr_field_id();
+			opt_descend();
+			result = fn_inspect(field_id);
+		} else if constexpr (std::is_same<F, std::string_view>::value) {
+			std::string_view field_tag = this->curr_field_tag();
+			opt_descend();
+			result = fn_inspect(field_tag);
+		} else {
+			static_assert(false);
+		}
+
+		if (descended) {
+			this->current_node--;
+		}
+		return result;
+	}
+
+	template<typename T>
+	T HandleVector(const int vector_size, std::function<T(int)> fn_inspect) {
+		T aggregate;
+		int index_start = this->curr_index();
+		this->current_node++;
+		/*if (this->current_node < this->nodes.size()) {
+			assert(this->curr_index() == 0);
+		}*/
+
+		if constexpr (std::is_same<T, bool>::value) {
+			aggregate = false;
+		}
+
+		for (int i = 0; i < this->extract_count && this->cnt_extracted < this->extract_count; ++i) {
+			if (index_start + i > vector_size) {
+				if constexpr (std::is_same<T, InspectResult>::value) {
+					aggregate.data.emplace_back(0);
+					aggregate.strings.emplace_back("");
+				} else if constexpr (std::is_same<T, std::vector<std::string>>::value) {
+					aggregate.push_back("[" + std::to_string(index_start + i) + "]<not-found>");
+				}
+				continue;
+			}
+
+			T result = fn_inspect(index_start + i - 1);
+
+			if constexpr (std::is_same<T, InspectResult>::value) {
+				aggregate.type = result.type;
+				if (!result.success) {
+					return {};
+				}
+				if (result.type < 3) {
+					for (auto elem : result.data) {
+						aggregate.data.emplace_back(elem);
+						this->cnt_extracted++;
+					}
+				} else {
+					for (auto str : result.strings) {
+						aggregate.strings.emplace_back(str);
+						this->cnt_extracted++;
+					}
+				} 
+			} else if constexpr (std::is_same<T, bool>::value) {
+				aggregate = aggregate && result;
+			} else if constexpr (std::is_same<T, std::vector<std::string>>::value) {
+				if (result.empty()) {
+					return {};
+				}
+				for (auto elem : result) {
+					aggregate.push_back("[" + std::to_string(index_start + i) + "]" + elem);
+					this->cnt_extracted++;
+				}
+			}
+		}
+		return aggregate;
 	}
 
 private:
@@ -347,6 +378,92 @@ private:
 	int current_node = 0;
 	int cnt_extracted = 0;
 };
+
+namespace TypeInspection {
+
+template<typename T, typename V>
+bool SetPrimitiveValue(T& ref, V& value) {
+	if constexpr (std::is_same<T, bool>::value) {
+		return SetBooleanValue(ref, value);
+	} else if constexpr (std::is_same<T, int>::value) {
+		return SetIntegerValue(ref, value);
+	} else if constexpr (std::is_same<T, std::string>::value) {
+		return SetStringValue(ref, value);
+	} else if constexpr (std::is_same<T, lcf::DBString>::value) {
+		return SetStringValue(ref, value);
+	}
+	return false;
+}
+
+template<typename V>
+bool SetBooleanValue(bool& ref, V& value) {
+	if constexpr (std::is_same<V, bool>::value) {
+		ref = (value > 0);
+		return true;
+	} else if constexpr (std::is_same<V, int>::value) {
+		ref = value;
+		return true;
+	} else if constexpr (std::is_same<V, std::string_view>::value) {
+		std::string value_lc = std::string(value);
+		std::transform(value_lc.begin(), value_lc.end(), value_lc.begin(), ::tolower);
+		if (value == "t" || value == "true") {
+			ref = true;
+			return true;
+		} else if (value == "f" || value == "false") {
+			ref = false;
+			return true;
+		}
+		ref = !value.empty();
+	}
+	return false;
+}
+
+template<typename V>
+bool SetIntegerValue(int& ref, V& value) {
+	if constexpr (std::is_same<V, bool>::value) {
+		ref = value;
+		return true;
+	} else if constexpr (std::is_same<V, int>::value) {
+		ref = value;
+		return true;
+	} else if constexpr (std::is_same<V, std::string_view>::value) {
+		ref = atoi(value.data());
+		return true;
+	}
+	return false;
+}
+
+template<typename V>
+bool SetStringValue(std::string& ref, V& value) {
+	if constexpr (std::is_same<V, bool>::value) {
+		ref = (value ? "true" : "false");
+		return true;
+	} else if constexpr (std::is_same<V, int>::value) {
+		ref = std::to_string(value);
+		return true;
+	} else if constexpr (std::is_same<V, std::string_view>::value) {
+		ref = std::string(value);
+		return true;
+	}
+	return false;
+}
+
+template<typename V>
+bool SetStringValue(lcf::DBString& ref, V& value) {
+	if constexpr (std::is_same<V, bool>::value) {
+		ref = lcf::DBString(value ? "true" : "false");
+		return true;
+	} else if constexpr (std::is_same<V, int>::value) {
+		ref = lcf::DBString(std::to_string(value));
+		return true;
+	} else if constexpr (std::is_same<V, std::string_view>::value) {
+		ref = lcf::DBString(value);
+		return true;
+	}
+	return false;
+}
+
+} //namespace TypeInspection
 
 } //namespace lcf
 

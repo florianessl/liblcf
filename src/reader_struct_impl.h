@@ -280,7 +280,7 @@ InspectResult Struct<S>::Inspect(const S& obj, InspectPath& path) {
 	if (path.UseTags()) {
 		MakeTagMap();
 
-		return path.HandleContainer([&](std::string_view field_tag) {
+		return path.InspectContainer([&](std::string_view field_tag) {
 			auto it = std::find_if(tag_map.begin(), tag_map.end(), [&field_tag](auto& p) { return field_tag == p.first; });
 			if (it != tag_map.end()) {
 				return it->second->Inspect(obj, path);
@@ -290,12 +290,37 @@ InspectResult Struct<S>::Inspect(const S& obj, InspectPath& path) {
 	}
 	MakeFieldMap();
 
-	return path.HandleContainer([&](int field_id) {
+	return path.InspectContainer([&](int field_id) {
 		auto it = field_map.find(field_id);
 		if (it != field_map.end()) {
 			return it->second->Inspect(obj, path);
 		}
 		return InspectResult();
+	});
+}
+
+template <class S>
+template <typename V>
+bool Struct<S>::_OverrideValue(S& obj, InspectPath& path, V& value) {
+	if (path.UseTags()) {
+		Struct<S>::MakeTagMap();
+
+		return path.TraverseContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tag_map.begin(), tag_map.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tag_map.end()) {
+				return it->second->OverrideValue(obj, path, value);
+			}
+			return false;
+		});
+	}
+	Struct<S>::MakeFieldMap();
+
+	return path.TraverseContainer([&](int field_id) {
+		auto it = field_map.find(field_id);
+		if (it != field_map.end()) {
+			return it->second->OverrideValue(obj, path, value);
+		}
+		return false;
 	});
 }
 
@@ -305,7 +330,7 @@ std::vector<std::string> Struct<S>::TracePath(const S& obj, InspectPath& path) {
 	if (path.UseTags()) {
 		MakeTagMap();
 
-		return path.HandleContainer<std::vector<std::string>>([&](std::string_view field_tag) {
+		return path.TraceContainer([&](std::string_view field_tag) {
 			auto it = std::find_if(tag_map.begin(), tag_map.end(), [&field_tag](auto& p) { return field_tag == p.first; });
 			if (it != tag_map.end()) {
 				return it->second->TracePath(obj, path);
@@ -315,7 +340,7 @@ std::vector<std::string> Struct<S>::TracePath(const S& obj, InspectPath& path) {
 	}
 	MakeFieldMap();
 
-	return path.HandleContainer<std::vector<std::string>>([&](int field_id) {
+	return path.TraceContainer([&](int field_id) {
 		auto it = field_map.find(field_id);
 		if (it != field_map.end()) {
 			return it->second->TracePath(obj, path);

@@ -151,6 +151,18 @@ namespace {
 #endif
 		return TypeReader<rpg::Database>::Inspect(obj, path);
 	}
+
+	template<typename V>
+	bool OverrideValue(lcf::rpg::Database& obj, InspectPath& path, V&& value) {
+#ifdef LCF_DEBUG_TRACE_INSPECT
+		auto trace = TypeReader<rpg::Database>::TracePath(obj, path);
+		for (auto line : trace) {
+			Log::Debug((std::string("LDB") + line).c_str());
+		}
+		path.Reset();
+#endif
+		return TypeReader<rpg::Database>::OverrideValue(obj, path, value);
+	}
 }
 
 std::vector<bool> LDB_Reader::InspectBoolean(const lcf::rpg::Database& obj, lcf::InspectPath& path) {
@@ -163,6 +175,18 @@ std::vector<int> LDB_Reader::InspectInteger(const lcf::rpg::Database& obj, lcf::
 
 std::vector<std::string> LDB_Reader::InspectString(const lcf::rpg::Database& obj, lcf::InspectPath& path) {
 	return Inspect(obj, path).ToString();
+}
+
+bool LDB_Reader::OverrideBoolean(lcf::rpg::Database& obj, lcf::InspectPath& path, bool value) {
+	return OverrideValue(obj, path, value);
+}
+
+bool LDB_Reader::OverrideInteger(lcf::rpg::Database& obj, lcf::InspectPath& path, int value) {
+	return OverrideValue(obj, path, value);
+}
+
+bool LDB_Reader::OverrideString(lcf::rpg::Database& obj, lcf::InspectPath& path, std::string_view value) {
+	return OverrideValue(obj, path, value);
 }
 
 } // namespace lcf

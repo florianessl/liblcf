@@ -109,8 +109,12 @@ struct TypeReader<T, Category::Void> {
 	static void ParseXml(T& /* ref */, const std::string& /* data */) {
 		//no-op
 	}
-	static InspectResult Inspect(const T&, InspectPath) {
+	static InspectResult Inspect(const T&, InspectPath&) {
 		return {};
+	}
+	template <typename V>
+	static bool OverrideValue(T&, InspectPath&, V&) {
+		return false;
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
@@ -129,10 +133,31 @@ struct RawStruct {
 	static int LcfSize(const T& ref, LcfWriter& stream);
 	static void WriteXml(const T& ref, XmlWriter& stream);
 	static void BeginXml(T& ref, XmlReader& stream);
+
 	static InspectResult Inspect(const T& ref, InspectPath& path);
+	static bool OverrideValue(T& ref, InspectPath& path, bool value) {
+		return _OverrideValue<bool>(ref, path, value);
+	}
+	static bool OverrideValue(T& ref, InspectPath& path, int value) {
+		return _OverrideValue<int>(ref, path, value);
+	}
+	static bool OverrideValue(T& ref, InspectPath& path, std::string_view value) {
+		return _OverrideValue<std::string_view>(ref, path, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const T& ref, InspectPath& path);
 #endif
+private:
+	template <typename V>
+	static bool _OverrideValue(T& ref, InspectPath& path, V& value) {
+		if constexpr (std::is_same<T, lcf::DBString>::value) {
+			return lcf::TypeInspection::SetPrimitiveValue(ref, value);
+		} else if constexpr (std::is_same<T, std::string_view>::value) {
+			return lcf::TypeInspection::SetPrimitiveValue(ref, value);
+		}
+		//TODO
+		return false;
+	}
 };
 
 template <class T>
@@ -157,6 +182,10 @@ struct TypeReader<T, Category::RawStruct> {
 	}
 	static InspectResult Inspect(const T& ref, InspectPath& path) {
 		return RawStruct<T>::Inspect(ref, path);
+	}
+	template <typename V>
+	static bool OverrideValue(T& ref, InspectPath& path, V& value) {
+		return RawStruct<T>::OverrideValue(ref, path, value);
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
@@ -221,6 +250,10 @@ struct Primitive {
 	static InspectResult Inspect(const T& ref, InspectPath& path) {
 		return InspectResult(ref);
 	}
+	template <typename V>
+	static bool OverrideValue(T& ref, InspectPath& path, V& value) {
+		return lcf::TypeInspection::SetPrimitiveValue(ref, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::string TracePath(const T& ref, InspectPath& path) {
 		return std::string { std::to_string(ref) };
@@ -270,8 +303,14 @@ struct Primitive<std::vector<T>> {
 		XmlReader::Read(ref, data);
 	}
 	static InspectResult Inspect(const std::vector<T>& ref, InspectPath& path) {
-		return path.HandleVector(ref.size(), [&](int idx) {
+		return path.InspectVector(ref.size(), [&](int idx) {
 			return Primitive<T>::Inspect(ref[idx], path);
+		});
+	}
+	template <typename V>
+	static bool OverrideValue(std::vector<T>& ref, InspectPath& path, V& value) {
+		return path.TraverseVector(ref.size(), [&](int idx) {
+			return lcf::TypeInspection::SetPrimitiveValue(ref[idx], value);
 		});
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
@@ -328,6 +367,10 @@ struct Primitive<int32_t> {
 	static InspectResult Inspect(const int32_t& ref, InspectPath& path) {
 		return InspectResult(ref);
 	}
+	template <typename V>
+	static bool OverrideValue(int32_t& ref, InspectPath& path, V& value) {
+		return lcf::TypeInspection::SetPrimitiveValue(ref, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::string TracePath(const int32_t& ref, InspectPath& path) {
 		return std::string { std::to_string(ref) };
@@ -360,6 +403,10 @@ struct Primitive<std::string> {
 	}
 	static InspectResult Inspect(const std::string& ref, InspectPath& path) {
 		return InspectResult(ref);
+	}
+	template <typename V>
+	static bool OverrideValue(std::string& ref, InspectPath& path, V& value) {
+		return lcf::TypeInspection::SetPrimitiveValue(ref, value);
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::string TracePath(const std::string& ref, InspectPath& path) {
@@ -397,8 +444,14 @@ struct Primitive<DBBitArray> {
 		XmlReader::Read(ref, data);
 	}
 	static InspectResult Inspect(const DBBitArray& ref, InspectPath& path) {
-		return path.HandleVector(ref.size(), [&](int idx) {
+		return path.InspectVector(ref.size(), [&](int idx) {
 			return InspectResult(ref[idx]);
+		});
+	}
+	template <typename V>
+	static bool OverrideValue(DBBitArray& ref, InspectPath& path, V& value) {
+		return path.TraverseVector(ref.size(), [&](int idx) {
+			return lcf::TypeInspection::SetPrimitiveValue(ref[idx], value);
 		});
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
@@ -446,6 +499,10 @@ struct TypeReader<T, Category::Primitive> {
 	static InspectResult Inspect(const T& ref, InspectPath& path) {
 		return Primitive<T>::Inspect(ref, path);
 	}
+	template <typename V>
+	static bool OverrideValue(T& ref, InspectPath& path, V& value) {
+		return Primitive<T>::OverrideValue(ref, path, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
 		return std::vector<std::string> { std::string("=") + Primitive<T>::TracePath(ref, path) };
@@ -473,6 +530,9 @@ struct Field {
 	virtual void BeginXml(S& obj, XmlReader& stream) const = 0;
 	virtual void ParseXml(S& obj, const std::string& data) const = 0;
 	virtual InspectResult Inspect(const S& obj, InspectPath& path) const = 0;
+	virtual bool OverrideValue(S& obj, InspectPath& path, bool value) const = 0;
+	virtual bool OverrideValue(S& obj, InspectPath& path, int value) const = 0;
+	virtual bool OverrideValue(S& obj, InspectPath& path, std::string_view value) const = 0;
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	virtual std::vector<std::string> TracePath(const S& obj, InspectPath& path) const = 0;
 #endif
@@ -522,6 +582,15 @@ struct TypedField : public Field<S> {
 	}
 	InspectResult Inspect(const S& obj, InspectPath& path) const {
 		return TypeReader<T>::Inspect(obj.*ref, path);
+	}
+	bool OverrideValue(S& obj, InspectPath& path, bool value) const {
+		return TypeReader<T>::OverrideValue<bool>(obj.*ref, path, value);
+	}
+	bool OverrideValue(S& obj, InspectPath& path, int value) const {
+		return TypeReader<T>::OverrideValue<int>(obj.*ref, path, value);
+	}
+	bool OverrideValue(S& obj, InspectPath& path, std::string_view value) const {
+		return TypeReader<T>::OverrideValue<std::string_view>(obj.*ref, path, value);
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	std::vector<std::string> TracePath(const S& obj, InspectPath& path) const {
@@ -584,6 +653,15 @@ struct EmptyField : public Field<S> {
 	InspectResult Inspect(const S& /* obj */, InspectPath& /* path */) const {
 		return {};
 	}
+	bool OverrideValue(S& /* obj */, InspectPath& /* path */, bool /* value */) const {
+		return false;
+	}
+	bool OverrideValue(S& /* obj */, InspectPath& /* path */, int /* value */) const {
+		return false;
+	}
+	bool OverrideValue(S& /* obj */, InspectPath& /* path */, std::string_view /* value */) const {
+		return false;
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	std::vector<std::string> TracePath(const S& /* obj */, InspectPath& /* path */) const {
 		return std::vector<std::string> { "{empty}" };
@@ -631,6 +709,15 @@ struct SizeField : public Field<S> {
 	}
 	InspectResult Inspect(const S& /* obj */, InspectPath& /* path */) const {
 		return {};
+	}
+	bool OverrideValue(S& /* obj */, InspectPath& /* path */, bool /* value */) const {
+		return false;
+	}
+	bool OverrideValue(S& /* obj */, InspectPath& /* path */, int /* value */) const {
+		return false;
+	}
+	bool OverrideValue(S& /* obj */, InspectPath& /* path */, std::string_view /* value */) const {
+		return false;
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	std::vector<std::string> TracePath(const S& /* obj */, InspectPath& /* path */) const {
@@ -743,6 +830,8 @@ private:
 	template <class T> friend class StructVectorXmlHandler;
 	template <class T> friend class StructFieldXmlHandler;
 
+	template <typename V>
+	static bool _OverrideValue(S& obj, InspectPath& path, V& value);
 public:
 	static void ReadLcf(S& obj, LcfReader& stream);
 	static void WriteLcf(const S& obj, LcfWriter& stream);
@@ -757,6 +846,15 @@ public:
 	static void BeginXml(std::vector<S>& obj, XmlReader& stream);
 
 	static InspectResult Inspect(const S& obj, InspectPath& path);
+	static bool OverrideValue(S& obj, InspectPath& path, bool value) {
+		return _OverrideValue<bool>(obj, path, value);
+	}
+	static bool OverrideValue(S& obj, InspectPath& path, int value) {
+		return _OverrideValue<int>(obj, path, value);
+	}
+	static bool OverrideValue(S& obj, InspectPath& path, std::string_view value) {
+		return _OverrideValue<std::string_view>(obj, path, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const S& obj, InspectPath& path);
 #endif
@@ -794,6 +892,10 @@ struct TypeReader<T, Category::Struct> {
 	static InspectResult Inspect(const T& ref, InspectPath& path) {
 		return Struct<T>::Inspect(ref, path);
 	}
+	template <typename V>
+	static bool OverrideValue(T& ref, InspectPath& path, V& value) {
+		return Struct<T>::OverrideValue(ref, path, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
 		return Struct<T>::TracePath(ref, path);
@@ -822,8 +924,14 @@ struct TypeReader<std::vector<T>, Category::Struct> {
 		// no-op
 	}
 	static InspectResult Inspect(const std::vector<T>& ref, InspectPath& path) {
-		return path.HandleVector(ref.size(), [&](int idx) {
+		return path.InspectVector(ref.size(), [&](int idx) {
 			return Struct<T>::Inspect(ref[idx], path);
+		});
+	}
+	template <typename V>
+	static bool OverrideValue(std::vector<T>& ref, InspectPath& path, V& value) {
+		return path.TraverseVector(ref.size(), [&](int idx) {
+			return Struct<T>::OverrideValue(ref[idx], path, value);
 		});
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
@@ -848,6 +956,8 @@ private:
 	static const std::array<const char* const, num_flags> flag_names;
 	static const std::array<bool, num_flags> flags_is2k3;
 
+	template<typename V>
+	static bool _OverrideValue(S& obj, InspectPath& path, V& value);
 public:
 	static const char* tag(int idx);
 	static int idx(const char* tag);
@@ -857,7 +967,17 @@ public:
 	static int LcfSize(const S& obj, LcfWriter& stream);
 	static void WriteXml(const S& obj, XmlWriter& stream);
 	static void BeginXml(S& obj, XmlReader& stream);
+
 	static InspectResult Inspect(const S& obj, InspectPath& path);
+	static bool OverrideValue(S& obj, InspectPath& path, bool value) {
+		return _OverrideValue<bool>(obj, path, value);
+	}
+	static bool OverrideValue(S& obj, InspectPath& path, int value) {
+		return _OverrideValue<int>(obj, path, value);
+	}
+	static bool OverrideValue(S& obj, InspectPath& path, std::string_view value) {
+		return _OverrideValue<std::string_view>(obj, path, value);
+	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const S& obj, InspectPath& path);
 #endif
@@ -903,6 +1023,10 @@ struct TypeReader<T, Category::Flags> {
 	}
 	static InspectResult Inspect(const T& ref, InspectPath& path) {
 		return Flags<T>::Inspect(ref, path);
+	}
+	template <typename V>
+	static bool OverrideValue(T& ref, InspectPath& path, V& value) {
+		return Flags<T>::OverrideValue(ref, path, value);
 	}
 #ifdef LCF_DEBUG_TRACE_INSPECT
 	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {

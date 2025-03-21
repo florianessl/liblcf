@@ -220,7 +220,7 @@ InspectResult RawStruct<DBString>::Inspect(const DBString& ref, InspectPath& pat
 }
 
 InspectResult RawStruct<std::vector<DBString>>::Inspect(const std::vector<DBString>& ref, InspectPath& path) {
-	return path.HandleVector(ref.size(), [&](int idx) {
+	return path.InspectVector(ref.size(), [&](int idx) {
 		return RawStruct<DBString>::Inspect(ref[idx], path);
 	});
 }
