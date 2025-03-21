@@ -48,6 +48,7 @@ liblcf_la_SOURCES = \
 	src/dbarray.cpp \
 	src/dbstring_struct.cpp \
 	src/encoder.cpp \
+	src/inspection.h \
 	src/ldb_equipment.cpp \
 	src/ldb_eventcommand.cpp \
 	src/ldb_parameters.cpp \

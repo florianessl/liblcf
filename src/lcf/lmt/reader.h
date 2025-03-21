@@ -14,6 +14,7 @@
 #include <memory>
 #include "lcf/rpg/treemap.h"
 #include "lcf/saveopt.h"
+#include "inspection.h"
 
 namespace lcf {
 
@@ -61,6 +62,12 @@ namespace LMT_Reader {
 	 * Loads Map Tree as XML.
 	 */
 	std::unique_ptr<lcf::rpg::TreeMap> LoadXml(std::istream& filestream);
+
+	std::vector<bool> InspectBoolean(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path);
+
+	std::vector<int> InspectInteger(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path);
+
+	std::vector<std::string> InspectString(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path);
 }
 
 } //namespace lcf

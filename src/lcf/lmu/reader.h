@@ -14,6 +14,7 @@
 #include <memory>
 #include "lcf/rpg/map.h"
 #include "lcf/saveopt.h"
+#include "inspection.h"
 
 namespace lcf {
 
@@ -66,6 +67,12 @@ namespace LMU_Reader {
 	 * Loads map as XML.
 	 */
 	std::unique_ptr<rpg::Map> LoadXml(std::istream& filestream);
+
+	std::vector<bool> InspectBoolean(const lcf::rpg::Map& obj, lcf::InspectPath& path);
+
+	std::vector<int> InspectInteger(const lcf::rpg::Map& obj, lcf::InspectPath& path);
+
+	std::vector<std::string> InspectString(const lcf::rpg::Map& obj, lcf::InspectPath& path);
 }
 
 } //namespace lcf

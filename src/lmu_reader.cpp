@@ -127,4 +127,29 @@ std::unique_ptr<rpg::Map> LMU_Reader::LoadXml(std::istream& filestream) {
 	return map;
 }
 
+namespace {
+	lcf::InspectResult Inspect(const lcf::rpg::Map& obj, InspectPath& path) {
+#ifdef LCF_DEBUG_TRACE_INSPECT
+		auto trace = TypeReader<rpg::Map>::TracePath(obj, path);
+		for (auto line : trace) {
+			Log::Debug((std::string("LMU") + line).c_str());
+		}
+		path.Reset();
+#endif
+		return TypeReader<rpg::Map>::Inspect(obj, path);
+	}
+}
+
+std::vector<bool> LMU_Reader::InspectBoolean(const lcf::rpg::Map& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToBoolean();
+}
+
+std::vector<int> LMU_Reader::InspectInteger(const lcf::rpg::Map& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToInteger();
+}
+
+std::vector<std::string> LMU_Reader::InspectString(const lcf::rpg::Map& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToString();
+}
+
 } //namespace lcf

@@ -275,6 +275,56 @@ void Struct<S>::BeginXml(std::vector<S>& obj, XmlReader& stream) {
 	stream.SetHandler(new StructVectorXmlHandler<S>(obj));
 }
 
+template <class S>
+InspectResult Struct<S>::Inspect(const S& obj, InspectPath& path) {
+	if (path.UseTags()) {
+		MakeTagMap();
+
+		return path.HandleContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tag_map.begin(), tag_map.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tag_map.end()) {
+				return it->second->Inspect(obj, path);
+			}
+			return InspectResult();
+		});
+	}
+	MakeFieldMap();
+
+	return path.HandleContainer([&](int field_id) {
+		auto it = field_map.find(field_id);
+		if (it != field_map.end()) {
+			return it->second->Inspect(obj, path);
+		}
+		return InspectResult();
+	});
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+template <class S>
+std::vector<std::string> Struct<S>::TracePath(const S& obj, InspectPath& path) {
+	if (path.UseTags()) {
+		MakeTagMap();
+
+		return path.HandleContainer<std::vector<std::string>>([&](std::string_view field_tag) {
+			auto it = std::find_if(tag_map.begin(), tag_map.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tag_map.end()) {
+				return it->second->TracePath(obj, path);
+			}
+			return std::vector<std::string> { std::string("<not-found>") };
+		});
+	}
+	MakeFieldMap();
+
+	return path.HandleContainer<std::vector<std::string>>([&](int field_id) {
+		auto it = field_map.find(field_id);
+		if (it != field_map.end()) {
+			return it->second->TracePath(obj, path);
+		}
+		return std::vector<std::string> { std::string("<not-found>") };
+	});
+}
+#endif
+
 } //namespace lcf
 
 #include "fwd_struct_impl.h"

@@ -17,6 +17,7 @@
 #include <stdint.h>
 #include "lcf/rpg/save.h"
 #include "lcf/saveopt.h"
+#include "inspection.h"
 
 namespace lcf {
 
@@ -83,6 +84,12 @@ namespace LSD_Reader {
 	 * Loads Savegame as XML.
 	 */
 	std::unique_ptr<rpg::Save> LoadXml(std::istream& filestream);
+
+	std::vector<bool> InspectBoolean(const lcf::rpg::Save& obj, lcf::InspectPath& path);
+
+	std::vector<int> InspectInteger(const lcf::rpg::Save& obj, lcf::InspectPath& path);
+
+	std::vector<std::string> InspectString(const lcf::rpg::Save& obj, lcf::InspectPath& path);
 }
 
 } //namespace lcf

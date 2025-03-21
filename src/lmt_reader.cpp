@@ -118,4 +118,29 @@ std::unique_ptr<lcf::rpg::TreeMap> LMT_Reader::LoadXml(std::istream& filestream)
 	return tmap;
 }
 
+namespace {
+	lcf::InspectResult Inspect(const lcf::rpg::TreeMap& obj, InspectPath& path) {
+#ifdef LCF_DEBUG_TRACE_INSPECT
+		auto trace = TypeReader<rpg::TreeMap>::TracePath(obj, path);
+		for (auto line : trace) {
+			Log::Debug((std::string("LMT") + line).c_str());
+		}
+		path.Reset();
+#endif
+		return TypeReader<rpg::TreeMap>::Inspect(obj, path);
+	}
+}
+
+std::vector<bool> LMT_Reader::InspectBoolean(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToBoolean();
+}
+
+std::vector<int> LMT_Reader::InspectInteger(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToInteger();
+}
+
+std::vector<std::string> LMT_Reader::InspectString(const lcf::rpg::TreeMap& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToString();
+}
+
 } //namespace lcf

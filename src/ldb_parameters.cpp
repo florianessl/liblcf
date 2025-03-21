@@ -20,6 +20,10 @@ struct RawStruct<rpg::Parameters> {
 	static int LcfSize(const rpg::Parameters& ref, LcfWriter& stream);
 	static void WriteXml(const rpg::Parameters& ref, XmlWriter& stream);
 	static void BeginXml(rpg::Parameters& ref, XmlReader& stream);
+	static InspectResult Inspect(const rpg::Parameters& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const rpg::Parameters& ref, InspectPath& path);
+#endif
 };
 
 /**
@@ -95,5 +99,51 @@ public:
 void RawStruct<rpg::Parameters>::BeginXml(rpg::Parameters& ref, XmlReader& stream) {
 	stream.SetHandler(new WrapperXmlHandler("Parameters", new ParametersXmlHandler(ref)));
 }
+
+constexpr std::array<std::pair<const char*, int>, 6> tags_to_id = {{
+	{ "maxhp", 0},
+	{ "maxsp", 1},
+	{ "attack", 2},
+	{ "defense", 3},
+	{ "spirit", 4},
+	{ "agility", 5}
+}};
+
+InspectResult RawStruct<rpg::Parameters>::Inspect(const rpg::Parameters& ref, InspectPath& path) {
+	auto handle_field_id = [&](int field_id) {
+		switch (field_id) {
+			case 0:
+				return Primitive<std::vector<int16_t>>::Inspect(ref.maxhp, path);
+			case 1:
+				return Primitive<std::vector<int16_t>>::Inspect(ref.maxsp, path);
+			case 2:
+				return Primitive<std::vector<int16_t>>::Inspect(ref.attack, path);
+			case 3:
+				return Primitive<std::vector<int16_t>>::Inspect(ref.defense, path);
+			case 4:
+				return Primitive<std::vector<int16_t>>::Inspect(ref.spirit, path);
+			case 5:
+				return Primitive<std::vector<int16_t>>::Inspect(ref.agility, path);
+		}
+		return InspectResult();
+	};
+
+	if (path.UseTags()) {
+		return path.HandleContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tags_to_id.end()) {
+				return handle_field_id(it->second);
+			}
+			return InspectResult();
+		});
+	}
+	return path.HandleContainer(handle_field_id);
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+std::vector<std::string> RawStruct<rpg::Parameters>::TracePath(const rpg::Parameters& ref, InspectPath& path) {
+	return std::vector<std::string> { "<not-traced>" };
+}
+#endif
 
 } //namespace lcf

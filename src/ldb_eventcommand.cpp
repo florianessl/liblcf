@@ -22,6 +22,10 @@ struct RawStruct<rpg::EventCommand> {
 	static int LcfSize(const rpg::EventCommand& ref, LcfWriter& stream);
 	static void WriteXml(const rpg::EventCommand& ref, XmlWriter& stream);
 	static void BeginXml(rpg::EventCommand& ref, XmlReader& stream);
+	static InspectResult Inspect(const rpg::EventCommand& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const rpg::EventCommand& ref, InspectPath& path);
+#endif
 };
 
 template <>
@@ -31,6 +35,10 @@ struct RawStruct<std::vector<rpg::EventCommand> > {
 	static int LcfSize(const std::vector<rpg::EventCommand>& ref, LcfWriter& stream);
 	static void WriteXml(const std::vector<rpg::EventCommand>& ref, XmlWriter& stream);
 	static void BeginXml(std::vector<rpg::EventCommand>& ref, XmlReader& stream);
+	static InspectResult Inspect(const std::vector<rpg::EventCommand>& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const std::vector<rpg::EventCommand>& ref, InspectPath& path);
+#endif
 };
 
 /**
@@ -229,5 +237,59 @@ private:
 void RawStruct<std::vector<rpg::EventCommand> >::BeginXml(std::vector<rpg::EventCommand>& obj, XmlReader& stream) {
 	stream.SetHandler(new EventCommandVectorXmlHandler(obj));
 }
+
+constexpr std::array<std::pair<const char*, int>, 4> tags_to_id = {{
+	{ "code", 0},
+	{ "indent", 1},
+	{ "string", 2},
+	{ "parameters", 3}
+}};
+
+InspectResult RawStruct<rpg::EventCommand>::Inspect(const rpg::EventCommand& ref, InspectPath& path) {
+	auto handle_field_id = [&](int field_id) {
+		switch (field_id) {
+			case 0:
+				return Primitive<int32_t>::Inspect(ref.code, path);
+			case 1:
+				return Primitive<int32_t>::Inspect(ref.indent, path);
+			case 2:
+				return Primitive<std::string>::Inspect(ToString(ref.string), path);
+			case 3:
+				return Primitive<std::vector<int32_t>>::Inspect(std::vector<int32_t>(ref.parameters.begin(), ref.parameters.end()), path);
+		}
+		return InspectResult();
+	};
+
+	if (path.UseTags()) {
+		return path.HandleContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tags_to_id.end()) {
+				return handle_field_id(it->second);
+			}
+			return InspectResult();
+		});
+	}
+	return path.HandleContainer(handle_field_id);
+}
+
+InspectResult RawStruct<std::vector<rpg::EventCommand>>::Inspect(const std::vector<rpg::EventCommand>& ref, InspectPath& path) {
+	return path.HandleVector(ref.size(), [&](int idx) {
+		return RawStruct<rpg::EventCommand>::Inspect(ref[idx], path);
+	});
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+std::vector<std::string> RawStruct<rpg::EventCommand>::TracePath(const rpg::EventCommand& ref, InspectPath& path) {
+	return std::vector<std::string> { "<not-traced>" };
+}
+
+std::vector<std::string> RawStruct<std::vector<rpg::EventCommand>>::TracePath(const std::vector<rpg::EventCommand>& ref, InspectPath& path) {
+	std::vector<std::string> result;
+	for (auto element : ref) {
+		result.push_back(RawStruct<rpg::EventCommand>::TracePath(element, path)[0]);
+	}
+	return result;
+}
+#endif
 
 } //namespace lcf

@@ -20,6 +20,10 @@ struct RawStruct<rpg::MoveCommand> {
 	static int LcfSize(const rpg::MoveCommand& ref, LcfWriter& stream);
 	static void WriteXml(const rpg::MoveCommand& ref, XmlWriter& stream);
 	static void BeginXml(rpg::MoveCommand& ref, XmlReader& stream);
+	static InspectResult Inspect(const rpg::MoveCommand& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const rpg::MoveCommand& ref, InspectPath& path);
+#endif
 };
 
 template <>
@@ -29,6 +33,10 @@ struct RawStruct<std::vector<rpg::MoveCommand> > {
 	static int LcfSize(const std::vector<rpg::MoveCommand>& ref, LcfWriter& stream);
 	static void WriteXml(const std::vector<rpg::MoveCommand>& ref, XmlWriter& stream);
 	static void BeginXml(std::vector<rpg::MoveCommand>& ref, XmlReader& stream);
+	static InspectResult Inspect(const std::vector<rpg::MoveCommand>& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const std::vector<rpg::MoveCommand>& ref, InspectPath& path);
+#endif
 };
 
 /**
@@ -230,5 +238,62 @@ private:
 void RawStruct<std::vector<rpg::MoveCommand> >::BeginXml(std::vector<rpg::MoveCommand>& obj, XmlReader& stream) {
 	stream.SetHandler(new MoveCommandVectorXmlHandler(obj));
 }
+
+constexpr std::array<std::pair<const char*, int>, 5> tags_to_id = {{
+	{ "command_id", 0},
+	{ "parameter_a", 1},
+	{ "parameter_b", 2},
+	{ "parameter_c", 3},
+	{ "parameter_string", 4}
+}};
+
+InspectResult RawStruct<rpg::MoveCommand>::Inspect(const rpg::MoveCommand& ref, InspectPath& path) {
+	auto handle_field_id = [&](int field_id) {
+		switch (field_id) {
+			case 0:
+				return Primitive<int32_t>::Inspect(ref.command_id, path);
+			case 1:
+				return Primitive<int32_t>::Inspect(ref.parameter_a, path);
+			case 2:
+				return Primitive<int32_t>::Inspect(ref.parameter_b, path);
+			case 3:
+				return Primitive<int32_t>::Inspect(ref.parameter_c, path);
+			case 4:
+				return Primitive<std::string>::Inspect(ToString(ref.parameter_string), path);
+		}
+		return InspectResult();
+	};
+
+	if (path.UseTags()) {
+		return path.HandleContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tags_to_id.end()) {
+				return handle_field_id(it->second);
+			}
+			return InspectResult();
+		});
+	}
+	return path.HandleContainer(handle_field_id);
+}
+
+InspectResult RawStruct<std::vector<rpg::MoveCommand> >::Inspect(const std::vector<rpg::MoveCommand>& ref, InspectPath& path) {
+	return path.HandleVector(ref.size(), [&](int idx) {
+		return RawStruct<rpg::MoveCommand>::Inspect(ref[idx], path);
+	});
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+std::vector<std::string> RawStruct<rpg::MoveCommand>::TracePath(const rpg::MoveCommand& ref, InspectPath& path) {
+	return std::vector<std::string> { "<not-traced>" };
+}
+
+std::vector<std::string> RawStruct<std::vector<rpg::MoveCommand>>::TracePath(const std::vector<rpg::MoveCommand>& ref, InspectPath& path) {
+	std::vector<std::string> result;
+	for (auto element : ref) {
+		result.push_back(RawStruct<rpg::MoveCommand>::TracePath(element, path)[0]);
+	}
+	return result;
+}
+#endif
 
 } //namspace lcf

@@ -127,6 +127,22 @@ void Flags<S>::BeginXml(S& obj, XmlReader& stream) {
 	stream.SetHandler(new WrapperXmlHandler(name, new FlagsXmlHandler<S>(obj)));
 }
 
+template <class S>
+InspectResult Flags<S>::Inspect(const S& obj, InspectPath& path) {
+	return path.HandleVector(num_flags, [&](int idx) {
+		return InspectResult(obj.flags[idx]);
+	});
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+template <class S>
+std::vector<std::string> Flags<S>::TracePath(const S& obj, InspectPath& path) {
+	return path.TraceVector(num_flags, [&](int idx) {
+		return std::vector<std::string> { std::to_string(obj.flags[idx]) };
+	});
+}
+#endif
+
 // Instantiate templates
 #ifdef _MSC_VER
 #pragma warning (disable : 4661)

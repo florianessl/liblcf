@@ -15,6 +15,7 @@
 #include <memory>
 #include "lcf/rpg/database.h"
 #include "lcf/saveopt.h"
+#include "inspection.h"
 
 namespace lcf {
 
@@ -66,6 +67,12 @@ namespace LDB_Reader {
 	 * Load Database as XML.
 	 */
 	std::unique_ptr<lcf::rpg::Database> LoadXml(std::istream& filestream);
+
+	std::vector<bool> InspectBoolean(const lcf::rpg::Database& obj, lcf::InspectPath& path);
+
+	std::vector<int> InspectInteger(const lcf::rpg::Database& obj, lcf::InspectPath& path);
+
+	std::vector<std::string> InspectString(const lcf::rpg::Database& obj, lcf::InspectPath& path);
 }
 
 } // namespace lcf

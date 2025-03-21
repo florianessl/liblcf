@@ -162,4 +162,29 @@ std::unique_ptr<rpg::Save> LSD_Reader::LoadXml(std::istream& filestream) {
 	return std::unique_ptr<rpg::Save>(save);
 }
 
+namespace {
+	lcf::InspectResult Inspect(const lcf::rpg::Save& obj, InspectPath& path) {
+#ifdef LCF_DEBUG_TRACE_INSPECT
+		auto trace = TypeReader<rpg::Save>::TracePath(obj, path);
+		for (auto line : trace) {
+			Log::Debug((std::string("LSD") + line).c_str());
+		}
+		path.Reset();
+#endif
+		return TypeReader<rpg::Save>::Inspect(obj, path);
+	}
+}
+
+std::vector<bool> LSD_Reader::InspectBoolean(const lcf::rpg::Save& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToBoolean();
+}
+
+std::vector<int> LSD_Reader::InspectInteger(const lcf::rpg::Save& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToInteger();
+}
+
+std::vector<std::string> LSD_Reader::InspectString(const lcf::rpg::Save& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToString();
+}
+
 } //namespace lcf

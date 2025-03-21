@@ -30,6 +30,10 @@ struct RawStruct<DBString> {
 	static int LcfSize(const DBString& ref, LcfWriter& stream);
 	static void WriteXml(const DBString& ref, XmlWriter& stream);
 	static void BeginXml(DBString& ref, XmlReader& stream);
+	static InspectResult Inspect(const DBString& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const DBString& ref, InspectPath& path);
+#endif
 };
 
 template <>
@@ -39,6 +43,10 @@ struct RawStruct<std::vector<DBString> > {
 	static int LcfSize(const std::vector<DBString>& ref, LcfWriter& stream);
 	static void WriteXml(const std::vector<DBString>& ref, XmlWriter& stream);
 	static void BeginXml(std::vector<DBString>& ref, XmlReader& stream);
+	static InspectResult Inspect(const std::vector<DBString>& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const std::vector<DBString>& ref, InspectPath& path);
+#endif
 };
 
 void RawStruct<DBString>::ReadLcf(DBString& ref, LcfReader& stream, uint32_t length) {
@@ -206,5 +214,29 @@ private:
 void RawStruct<std::vector<DBString>>::BeginXml(std::vector<DBString>& obj, XmlReader& stream) {
 	stream.SetHandler(new DbStringVectorXmlHandler(obj));
 }
+
+InspectResult RawStruct<DBString>::Inspect(const DBString& ref, InspectPath& path) {
+	return Primitive<std::string>::Inspect(ToString(ref), path);
+}
+
+InspectResult RawStruct<std::vector<DBString>>::Inspect(const std::vector<DBString>& ref, InspectPath& path) {
+	return path.HandleVector(ref.size(), [&](int idx) {
+		return RawStruct<DBString>::Inspect(ref[idx], path);
+	});
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+std::vector<std::string> RawStruct<DBString>::TracePath(const DBString& ref, InspectPath& path) {
+	return std::vector<std::string> { std::string("=") + ToString(ref) };
+}
+
+std::vector<std::string> RawStruct<std::vector<DBString>>::TracePath(const std::vector<DBString>& ref, InspectPath& path) {
+	std::vector<std::string> result;
+	for (auto element : ref) {
+		result.push_back(RawStruct<DBString>::TracePath(element, path)[0]);
+	}
+	return result;
+}
+#endif
 
 } //namspace lcf

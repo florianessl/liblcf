@@ -21,6 +21,10 @@ struct RawStruct<rpg::Equipment> {
 	static int LcfSize(const rpg::Equipment& ref, LcfWriter& stream);
 	static void WriteXml(const rpg::Equipment& ref, XmlWriter& stream);
 	static void BeginXml(rpg::Equipment& ref, XmlReader& stream);
+	static InspectResult Inspect(const rpg::Equipment& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const rpg::Equipment& ref, InspectPath& path);
+#endif
 };
 
 /**
@@ -102,5 +106,48 @@ public:
 void RawStruct<rpg::Equipment>::BeginXml(rpg::Equipment& ref, XmlReader& stream) {
 	stream.SetHandler(new WrapperXmlHandler("Equipment", new EquipmentXmlHandler(ref)));
 }
+
+constexpr std::array<std::pair<const char*, int>, 5> tags_to_id = {{
+	{ "weapon_id", 0},
+	{ "shield_id", 1},
+	{ "armor_id", 2},
+	{ "helmet_id", 3},
+	{ "accessory_id", 4}
+}};
+
+InspectResult RawStruct<rpg::Equipment>::Inspect(const rpg::Equipment& ref, InspectPath& path) {
+	auto handle_field_id = [&](int field_id) {
+		switch (field_id) {
+			case 0:
+				return Primitive<int16_t>::Inspect(ref.weapon_id, path);
+			case 1:
+				return Primitive<int16_t>::Inspect(ref.shield_id, path);
+			case 2:
+				return Primitive<int16_t>::Inspect(ref.armor_id, path);
+			case 3:
+				return Primitive<int16_t>::Inspect(ref.helmet_id, path);
+			case 4:
+				return Primitive<int16_t>::Inspect(ref.accessory_id, path);
+		}
+		return InspectResult();
+	};
+	
+	if (path.UseTags()) {
+		return path.HandleContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tags_to_id.end()) {
+				return handle_field_id(it->second);
+			}
+			return InspectResult();
+		});
+	}
+	return path.HandleContainer(handle_field_id);
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+std::vector<std::string> RawStruct<rpg::Equipment>::TracePath(const rpg::Equipment& ref, InspectPath& path) {
+	return std::vector<std::string> { "<not-traced>" };
+}
+#endif
 
 } //namespace lcf

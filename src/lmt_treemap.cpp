@@ -21,6 +21,10 @@ struct RawStruct<rpg::TreeMap> {
 	static int LcfSize(const rpg::TreeMap& ref, LcfWriter& stream);
 	static void WriteXml(const rpg::TreeMap& ref, XmlWriter& stream);
 	static void BeginXml(rpg::TreeMap& ref, XmlReader& stream);
+	static InspectResult Inspect(const rpg::TreeMap& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const rpg::TreeMap& ref, InspectPath& path);
+#endif
 };
 
 /**
@@ -105,8 +109,42 @@ public:
 	}
 };
 
+constexpr std::array<std::pair<const char*, int>, 2> tags_to_id = {{
+	{ "maps", 0},
+	{ "start", 1}
+}};
+
 void RawStruct<rpg::TreeMap>::BeginXml(rpg::TreeMap& ref, XmlReader& stream) {
 	stream.SetHandler(new WrapperXmlHandler("TreeMap", new TreeMapXmlHandler(ref)));
 }
+
+InspectResult RawStruct<rpg::TreeMap>::Inspect(const rpg::TreeMap& obj, InspectPath& path) {
+	auto handle_field_id = [&](int field_id) {
+		switch (field_id) {
+			case 0:
+				return TypeReader<std::vector<rpg::MapInfo>>::Inspect(obj.maps, path);
+			case 1:
+				return TypeReader<rpg::Start>::Inspect(obj.start, path);
+		}
+		return InspectResult();
+	};
+
+	if (path.UseTags()) {
+		return path.HandleContainer([&](std::string_view field_tag) {
+			auto it = std::find_if(tags_to_id.begin(), tags_to_id.end(), [&field_tag](auto& p) { return field_tag == p.first; });
+			if (it != tags_to_id.end()) {
+				return handle_field_id(it->second);
+			}
+			return InspectResult();
+		});
+	}
+	return path.HandleContainer(handle_field_id);
+}
+
+#ifdef LCF_DEBUG_TRACE_INSPECT
+std::vector<std::string> RawStruct<rpg::TreeMap>::TracePath(const rpg::TreeMap& ref, InspectPath& path) {
+	return std::vector<std::string> { "<not-traced>" };
+}
+#endif
 
 } //namespace lcf

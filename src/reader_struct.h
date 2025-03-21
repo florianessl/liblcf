@@ -32,6 +32,7 @@
 #include "lcf/rpg/rect.h"
 #include "lcf/rpg/terms.h"
 #include "log.h"
+#include "inspection.h"
 
 namespace lcf {
 
@@ -108,6 +109,14 @@ struct TypeReader<T, Category::Void> {
 	static void ParseXml(T& /* ref */, const std::string& /* data */) {
 		//no-op
 	}
+	static InspectResult Inspect(const T&, InspectPath) {
+		return {};
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
+		return std::vector < std::string> { "{empty}" };
+	}
+#endif
 };
 
 /**
@@ -120,6 +129,10 @@ struct RawStruct {
 	static int LcfSize(const T& ref, LcfWriter& stream);
 	static void WriteXml(const T& ref, XmlWriter& stream);
 	static void BeginXml(T& ref, XmlReader& stream);
+	static InspectResult Inspect(const T& ref, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const T& ref, InspectPath& path);
+#endif
 };
 
 template <class T>
@@ -142,6 +155,14 @@ struct TypeReader<T, Category::RawStruct> {
 	static void ParseXml(T& /* ref */, const std::string& /* data */) {
 		//no-op
 	}
+	static InspectResult Inspect(const T& ref, InspectPath& path) {
+		return RawStruct<T>::Inspect(ref, path);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
+		return RawStruct<T>::TracePath(ref, path);
+	}
+#endif
 };
 
 /**
@@ -197,6 +218,14 @@ struct Primitive {
 	static void ParseXml(T& ref, const std::string& data) {
 		XmlReader::Read(ref, data);
 	}
+	static InspectResult Inspect(const T& ref, InspectPath& path) {
+		return InspectResult(ref);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::string TracePath(const T& ref, InspectPath& path) {
+		return std::string { std::to_string(ref) };
+	}
+#endif
 	private:
 #ifdef LCF_DEBUG_TRACE
 	template <typename U>
@@ -240,6 +269,26 @@ struct Primitive<std::vector<T>> {
 	static void ParseXml(std::vector<T>& ref, const std::string& data) {
 		XmlReader::Read(ref, data);
 	}
+	static InspectResult Inspect(const std::vector<T>& ref, InspectPath& path) {
+		return path.HandleVector(ref.size(), [&](int idx) {
+			return Primitive<T>::Inspect(ref[idx], path);
+		});
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::string TracePath(const std::vector<T>& ref, InspectPath& path) {
+		auto result = path.TraceVector(ref.size(), [&](int idx) {
+			return std::vector<std::string> { std::to_string(ref[idx]) };
+		});
+		std::string result_str;
+		for (int i = 0; i < result.size(); ++i) {
+			result_str += result[i];
+			if (i != result.size() - 1) {
+				result_str += " ";
+			}
+		}
+		return result_str;
+	}
+#endif
 };
 
 /**
@@ -276,6 +325,14 @@ struct Primitive<int32_t> {
 	static void ParseXml(int32_t& ref, const std::string& data) {
 		XmlReader::Read(ref, data);
 	}
+	static InspectResult Inspect(const int32_t& ref, InspectPath& path) {
+		return InspectResult(ref);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::string TracePath(const int32_t& ref, InspectPath& path) {
+		return std::string { std::to_string(ref) };
+	}
+#endif
 };
 
 /**
@@ -301,6 +358,14 @@ struct Primitive<std::string> {
 	static void ParseXml(std::string& ref, const std::string& data) {
 		XmlReader::Read(ref, data);
 	}
+	static InspectResult Inspect(const std::string& ref, InspectPath& path) {
+		return InspectResult(ref);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::string TracePath(const std::string& ref, InspectPath& path) {
+		return std::string { ref };
+	}
+#endif
 };
 
 /**
@@ -331,6 +396,26 @@ struct Primitive<DBBitArray> {
 	static void ParseXml(DBBitArray& ref, const std::string& data) {
 		XmlReader::Read(ref, data);
 	}
+	static InspectResult Inspect(const DBBitArray& ref, InspectPath& path) {
+		return path.HandleVector(ref.size(), [&](int idx) {
+			return InspectResult(ref[idx]);
+		});
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::string TracePath(const DBBitArray& ref, InspectPath& path) {
+		auto result = path.TraceVector(ref.size(), [&](int idx) {
+			return std::vector<std::string> { std::to_string(ref[idx]) };
+		});
+		std::string result_str;
+		for (int i = 0; i < result.size(); ++i) {
+			result_str += result[i];
+			if (i != result.size() - 1) {
+				result_str += " ";
+			}
+		}
+		return result_str;
+	}
+#endif
 };
 
 
@@ -358,6 +443,14 @@ struct TypeReader<T, Category::Primitive> {
 	static void ParseXml(T& ref, const std::string& data) {
 		Primitive<T>::ParseXml(ref, data);
 	}
+	static InspectResult Inspect(const T& ref, InspectPath& path) {
+		return Primitive<T>::Inspect(ref, path);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
+		return std::vector<std::string> { std::string("=") + Primitive<T>::TracePath(ref, path) };
+	}
+#endif
 };
 
 /**
@@ -379,6 +472,10 @@ struct Field {
 	virtual void WriteXml(const S& obj, XmlWriter& stream) const = 0;
 	virtual void BeginXml(S& obj, XmlReader& stream) const = 0;
 	virtual void ParseXml(S& obj, const std::string& data) const = 0;
+	virtual InspectResult Inspect(const S& obj, InspectPath& path) const = 0;
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	virtual std::vector<std::string> TracePath(const S& obj, InspectPath& path) const = 0;
+#endif
 
 	bool isPresentIfDefault(bool db_is2k3) const {
 		if (std::is_same<S,rpg::Terms>::value && db_is2k3 && (id == 0x3 || id == 0x1)) {
@@ -423,6 +520,18 @@ struct TypedField : public Field<S> {
 	bool IsDefault(const S& a, const S& b, bool) const {
 		return a.*ref == b.*ref;
 	}
+	InspectResult Inspect(const S& obj, InspectPath& path) const {
+		return TypeReader<T>::Inspect(obj.*ref, path);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	std::vector<std::string> TracePath(const S& obj, InspectPath& path) const {
+		auto result = TypeReader<T>::TracePath(obj.*ref, path);
+		for (auto& str : result) {
+			str = std::string(".") + name + str;
+		}
+		return result;
+	}
+#endif
 
 	TypedField(T S::*ref, int id, const char* name, bool present_if_default, bool is2k3) :
 		Field<S>(id, name, present_if_default, is2k3), ref(ref) {}
@@ -472,6 +581,14 @@ struct EmptyField : public Field<S> {
 	void WriteXml(const S& /* obj */, XmlWriter& /* stream */) const { }
 	void BeginXml(S& /* obj */, XmlReader& /* stream */) const { }
 	void ParseXml(S& /* obj */, const std::string& /* data */) const { }
+	InspectResult Inspect(const S& /* obj */, InspectPath& /* path */) const {
+		return {};
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	std::vector<std::string> TracePath(const S& /* obj */, InspectPath& /* path */) const {
+		return std::vector<std::string> { "{empty}" };
+	}
+#endif
 
 	bool IsDefault(const S& /* a */, const S& /* b */, bool) const {
 		return true;
@@ -512,6 +629,14 @@ struct SizeField : public Field<S> {
 	bool IsDefault(const S& a, const S& b, bool) const {
 		return (a.*ref).size() == (b.*ref).size();
 	}
+	InspectResult Inspect(const S& /* obj */, InspectPath& /* path */) const {
+		return {};
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	std::vector<std::string> TracePath(const S& /* obj */, InspectPath& /* path */) const {
+		return std::vector<std::string> { "{size}" };
+	}
+#endif
 
 	SizeField(const T S::*ref, int id, bool present_if_default, bool is2k3) :
 		Field<S>(id, "", present_if_default, is2k3), ref(ref) {}
@@ -630,6 +755,11 @@ public:
 	static int LcfSize(const std::vector<S>& obj, LcfWriter& stream);
 	static void WriteXml(const std::vector<S>& obj, XmlWriter& stream);
 	static void BeginXml(std::vector<S>& obj, XmlReader& stream);
+
+	static InspectResult Inspect(const S& obj, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const S& obj, InspectPath& path);
+#endif
 };
 
 template <class S>
@@ -661,6 +791,14 @@ struct TypeReader<T, Category::Struct> {
 	static void ParseXml(T& /* ref */, const std::string& /* data */) {
 		// no-op
 	}
+	static InspectResult Inspect(const T& ref, InspectPath& path) {
+		return Struct<T>::Inspect(ref, path);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
+		return Struct<T>::TracePath(ref, path);
+	}
+#endif
 };
 
 template <class T>
@@ -683,6 +821,18 @@ struct TypeReader<std::vector<T>, Category::Struct> {
 	static void ParseXml(std::vector<T>& /* ref */, const std::string& /* data */) {
 		// no-op
 	}
+	static InspectResult Inspect(const std::vector<T>& ref, InspectPath& path) {
+		return path.HandleVector(ref.size(), [&](int idx) {
+			return Struct<T>::Inspect(ref[idx], path);
+		});
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const std::vector<T>& ref, InspectPath& path) {
+		return path.TraceVector(ref.size(), [&](int idx) {
+			return Struct<T>::TracePath(ref[idx], path);
+		});
+	}
+#endif
 };
 
 
@@ -707,6 +857,10 @@ public:
 	static int LcfSize(const S& obj, LcfWriter& stream);
 	static void WriteXml(const S& obj, XmlWriter& stream);
 	static void BeginXml(S& obj, XmlReader& stream);
+	static InspectResult Inspect(const S& obj, InspectPath& path);
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const S& obj, InspectPath& path);
+#endif
 };
 
 template <class S>
@@ -747,6 +901,14 @@ struct TypeReader<T, Category::Flags> {
 	static void ParseXml(T& /* ref */, const std::string& /* data */) {
 		// no-op
 	}
+	static InspectResult Inspect(const T& ref, InspectPath& path) {
+		return Flags<T>::Inspect(ref, path);
+	}
+#ifdef LCF_DEBUG_TRACE_INSPECT
+	static std::vector<std::string> TracePath(const T& ref, InspectPath& path) {
+		return Flags<T>::TracePath(ref, path);
+	}
+#endif
 };
 
 /**

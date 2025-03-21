@@ -140,4 +140,29 @@ std::unique_ptr<lcf::rpg::Database> LDB_Reader::LoadXml(std::istream& filestream
 	return db;
 }
 
+namespace {
+	lcf::InspectResult Inspect(const lcf::rpg::Database& obj, InspectPath& path) {
+#ifdef LCF_DEBUG_TRACE_INSPECT
+		auto trace = TypeReader<rpg::Database>::TracePath(obj, path);
+		for (auto line : trace) {
+			Log::Debug((std::string("LDB") + line).c_str());
+		}
+		path.Reset();
+#endif
+		return TypeReader<rpg::Database>::Inspect(obj, path);
+	}
+}
+
+std::vector<bool> LDB_Reader::InspectBoolean(const lcf::rpg::Database& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToBoolean();
+}
+
+std::vector<int> LDB_Reader::InspectInteger(const lcf::rpg::Database& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToInteger();
+}
+
+std::vector<std::string> LDB_Reader::InspectString(const lcf::rpg::Database& obj, lcf::InspectPath& path) {
+	return Inspect(obj, path).ToString();
+}
+
 } // namespace lcf
